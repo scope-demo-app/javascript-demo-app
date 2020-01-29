@@ -12,10 +12,10 @@ jobs:
         with:
           node-version: 12
       - name: Install dependencies
-      - run: yarn
+        run: yarn
       - name: Run unit tests
-      - run: yarn test:unit
+        run: yarn test:unit
       - name: Start app
-      - run: yarn start &
+        run: yarn start &
       - name: Run e2e tests
-      - run: yarn test:e2e
+        run: yarn test:e2e
