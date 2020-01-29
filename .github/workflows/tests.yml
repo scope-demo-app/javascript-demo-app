@@ -4,6 +4,8 @@ on: [push]
 
 jobs:
   build:
+    env:
+      SCOPE_DSN: ${{ secrets.SCOPE_DSN }}
     runs-on: ubuntu-latest
 
     steps:
