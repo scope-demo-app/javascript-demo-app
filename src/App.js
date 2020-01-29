@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <TabList {...tab} aria-label="My tabs">
-        <Tab {...tab} stopId="tab1">
+        <Tab {...tab} stopId="tab1" className="tab1">
           Tab 1
         </Tab>
         <Tab {...tab} stopId="tab2" disabled>
