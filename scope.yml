@@ -1,0 +1,9 @@
+# Scope Agent configuration file
+scope:
+  instrumentation:
+    enabled: true
+    http:
+      payload: true
+    headers:
+      - ot-tracer-traceid
+      - ot-tracer-spanid
