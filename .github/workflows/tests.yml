@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Demo app tests
 
 on: [push]
 
@@ -11,7 +11,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - name: Install dependencies
       - run: yarn
+      - name: Run unit tests
+      - run: yarn test:unit
+      - name: Start app
       - run: yarn start &
-      - run: yarn test:ci
+      - name: Run e2e tests
       - run: yarn test:e2e
