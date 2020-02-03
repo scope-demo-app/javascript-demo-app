@@ -1,32 +1,88 @@
 import React from 'react'
 import './App.css'
-import { useTabState, Tab, TabList, TabPanel } from 'reakit/Tab'
+import { makeStyles } from '@material-ui/core/styles'
+
+import RestaurantCard from './components/RestaurantCard'
+import RestaurantForm from './components/RestaurantForm'
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+    padding: 20,
+  },
+}))
+
+const restaurants = [
+  {
+    id: '1',
+    name: 'Restaurant 1',
+    photos: [
+      'http://media.blogto.com/uploads/2017/02/17/20161206-baro-12.jpg?h=2500&cmd=resize&quality=70&w=1400',
+    ],
+    rating: 2,
+    description: 'description',
+  },
+  {
+    id: '2',
+    name: 'Restaurant 2',
+    photos: [
+      'http://media.blogto.com/uploads/2017/02/17/20161206-baro-12.jpg?h=2500&cmd=resize&quality=70&w=1400',
+    ],
+    rating: 3.2,
+    description: 'description',
+  },
+  {
+    id: '3',
+    name: 'Restaurant 3',
+    photos: [
+      'http://media.blogto.com/uploads/2017/02/17/20161206-baro-12.jpg?h=2500&cmd=resize&quality=70&w=1400',
+    ],
+    rating: 1.7,
+    description: 'description',
+  },
+  {
+    id: '4',
+    name: 'Restaurant 4',
+    photos: [
+      'http://media.blogto.com/uploads/2017/02/17/20161206-baro-12.jpg?h=2500&cmd=resize&quality=70&w=1400',
+    ],
+    rating: 3,
+    description: 'description',
+  },
+  {
+    id: '5',
+    name: 'Restaurant 5',
+    photos: [
+      'http://media.blogto.com/uploads/2017/02/17/20161206-baro-12.jpg?h=2500&cmd=resize&quality=70&w=1400',
+    ],
+    rating: 3,
+    description: 'description',
+  },
+  {
+    id: '6',
+    name: 'Restaurant 6',
+    photos: [
+      'http://media.blogto.com/uploads/2017/02/17/20161206-baro-12.jpg?h=2500&cmd=resize&quality=70&w=1400',
+    ],
+    rating: 3,
+    description: 'description',
+  },
+]
 
 function App() {
-  const tab = useTabState()
+  const classes = useStyles()
+
   return (
-    <>
-      <TabList {...tab} aria-label="My tabs">
-        <Tab {...tab} stopId="tab1" className="tab1">
-          Tab 1
-        </Tab>
-        <Tab {...tab} stopId="tab2" disabled>
-          Tab 2
-        </Tab>
-        <Tab {...tab} stopId="tab3">
-          Tab 3
-        </Tab>
-      </TabList>
-      <TabPanel {...tab} stopId="tab1">
-        Panel 1
-      </TabPanel>
-      <TabPanel {...tab} stopId="tab2">
-        Panel 2
-      </TabPanel>
-      <TabPanel {...tab} stopId="tab3">
-        Panel 3
-      </TabPanel>
-    </>
+    <div className={classes.root}>
+      {restaurants.map(restaurant => (
+        <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+      ))}
+      <RestaurantForm />
+    </div>
   )
 }
 

@@ -1,13 +1,26 @@
-const API_ENDPOINT = 'https://pokeapi.co/api/v2/'
-
-export async function getPokemons() {
-  const response = await fetch(`${API_ENDPOINT}pokemon/`)
+export async function getRestaurants(endpoint) {
+  const response = await fetch(`${endpoint}/restaurants`)
   const json = await response.json()
   return json
 }
 
-export async function getPokemon(pokemonUrl) {
-  const response = await fetch(pokemonUrl)
+export async function getRestaurant(endpoint, restaurantId) {
+  const response = await fetch(`${endpoint}/restaurants/${restaurantId}`)
+  const json = await response.json()
+  return json
+}
+
+export async function findRestaurant(endpoint, name) {
+  const response = await fetch(`${endpoint}/restaurants?name=${name}`)
+  const json = await response.json()
+  return json
+}
+
+export async function submitRestaurant(endpoint, restaurant) {
+  const response = await fetch(`${endpoint}/restaurants`, {
+    method: 'POST',
+    body: restaurant,
+  })
   const json = await response.json()
   return json
 }
