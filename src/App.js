@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import './App.css'
 import { makeStyles } from '@material-ui/core/styles'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
 import RestaurantCard from './components/RestaurantCard'
 import RestaurantForm from './components/RestaurantForm'
 import RateModal from './components/RateModal'
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -78,10 +84,30 @@ function App() {
   const classes = useStyles()
 
   const [ratingRestaurant, setRatingRestaurant] = useState(null)
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+
+  function handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return
+    }
+    setSnackbarOpen(false)
+  }
 
   return (
     <div className={classes.root}>
-      <RateModal restaurant={ratingRestaurant} onClose={() => setRatingRestaurant(null)} />
+      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Thanks for your feedback!
+        </Alert>
+      </Snackbar>
+      <RateModal
+        restaurant={ratingRestaurant}
+        onClose={() => setRatingRestaurant(null)}
+        onSubmitReview={() => {
+          setRatingRestaurant(null)
+          setSnackbarOpen(true)
+        }}
+      />
       {restaurants.map(restaurant => (
         <RestaurantCard
           key={restaurant.id}

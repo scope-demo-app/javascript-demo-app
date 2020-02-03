@@ -29,7 +29,7 @@ function Rating({ rating }) {
       {Array.from({ length: rounded }).map((el, i) => (
         <StarRateIcon key={i} />
       ))}
-      {showHalf && <StarHalfIcon />}
+      {showHalf && <StarHalfIcon style={{ width: '20px' }} />}
     </>
   )
 }
