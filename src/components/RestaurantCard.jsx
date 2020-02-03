@@ -34,7 +34,7 @@ function Rating({ rating }) {
   )
 }
 
-function RestaurantCard({ restaurant }) {
+function RestaurantCard({ restaurant, onRateRestaurant }) {
   const classes = useStyles()
   const { name, photos, rating, description } = restaurant
 
@@ -54,7 +54,7 @@ function RestaurantCard({ restaurant }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={onRateRestaurant}>
           Rate
         </Button>
         <Button size="small" color="primary">

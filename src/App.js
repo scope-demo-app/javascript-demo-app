@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import { makeStyles } from '@material-ui/core/styles'
 
 import RestaurantCard from './components/RestaurantCard'
 import RestaurantForm from './components/RestaurantForm'
+import RateModal from './components/RateModal'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -76,10 +77,17 @@ const restaurants = [
 function App() {
   const classes = useStyles()
 
+  const [ratingRestaurant, setRatingRestaurant] = useState(null)
+
   return (
     <div className={classes.root}>
+      <RateModal restaurant={ratingRestaurant} onClose={() => setRatingRestaurant(null)} />
       {restaurants.map(restaurant => (
-        <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+        <RestaurantCard
+          key={restaurant.id}
+          restaurant={restaurant}
+          onRateRestaurant={() => setRatingRestaurant(restaurant)}
+        />
       ))}
       <RestaurantForm />
     </div>

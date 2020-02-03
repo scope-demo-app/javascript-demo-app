@@ -22,6 +22,7 @@ function RestaurantForm() {
   const [name, setName] = useState('')
   const [rating, setRating] = useState(3)
   const [description, setDescription] = useState('')
+  const [location, setLocation] = useState('')
   const [photos, setPhotos] = useState([])
 
   function handleUploadImage({ target }) {
@@ -79,6 +80,15 @@ function RestaurantForm() {
           maxLength: '200',
         }}
         onChange={({ target: { value } }) => setDescription(value)}
+      />
+      <TextField
+        id="location"
+        label="Location"
+        value={location}
+        inputProps={{
+          maxLength: '200',
+        }}
+        onChange={({ target: { value } }) => setLocation(value)}
       />
       {photos.map(({ name }) => (
         <span key={name}>{name}</span>
