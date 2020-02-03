@@ -17,9 +17,12 @@ export async function findRestaurant(endpoint, name) {
 }
 
 export async function submitRestaurant(endpoint, restaurant) {
-  const response = await fetch(`${endpoint}/restaurants`, {
+  const response = await fetch(`${endpoint}/restaurants/`, {
     method: 'POST',
-    body: restaurant,
+    body: JSON.stringify(restaurant),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   })
   const json = await response.json()
   return json

@@ -38,8 +38,9 @@ function RestaurantForm() {
     }
   }
 
-  function onSubmit() {
-    submitRestaurant('/', {
+  function onSubmit(event) {
+    event.preventDefault()
+    submitRestaurant('http://localhost:8000', {
       name,
       rating,
       description,
