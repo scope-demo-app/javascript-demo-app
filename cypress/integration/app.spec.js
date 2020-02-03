@@ -1,7 +1,7 @@
 describe('app', () => {
-  it('can click through the tabs', () => {
+  it('can visit the app', () => {
     cy.visit('/')
-      .get('.tab1')
+      .getByText(/submit a new restaurant/i)
       .should('exist')
   })
 })
