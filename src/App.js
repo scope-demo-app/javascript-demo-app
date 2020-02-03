@@ -32,6 +32,10 @@ const restaurants = [
     ],
     rating: 2,
     description: 'description',
+    location: {
+      lat: '40.416775',
+      long: '-3.703790',
+    },
   },
   {
     id: '2',
@@ -41,6 +45,10 @@ const restaurants = [
     ],
     rating: 3.2,
     description: 'description',
+    location: {
+      lat: '40.416775',
+      long: '-3.703790',
+    },
   },
   {
     id: '3',
@@ -50,6 +58,10 @@ const restaurants = [
     ],
     rating: 1.7,
     description: 'description',
+    location: {
+      lat: '40.416775',
+      long: '-3.703790',
+    },
   },
   {
     id: '4',
@@ -59,6 +71,10 @@ const restaurants = [
     ],
     rating: 3,
     description: 'description',
+    location: {
+      lat: '40.416775',
+      long: '-3.703790',
+    },
   },
   {
     id: '5',
@@ -68,6 +84,10 @@ const restaurants = [
     ],
     rating: 3,
     description: 'description',
+    location: {
+      lat: '40.416775',
+      long: '-3.703790',
+    },
   },
   {
     id: '6',
@@ -77,6 +97,10 @@ const restaurants = [
     ],
     rating: 3,
     description: 'description',
+    location: {
+      lat: '40.416775',
+      long: '-3.703790',
+    },
   },
 ]
 

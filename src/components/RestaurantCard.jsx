@@ -6,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
+import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
 import StarRateIcon from '@material-ui/icons/StarRate'
 import StarHalfIcon from '@material-ui/icons/StarHalf'
@@ -18,6 +19,10 @@ const useStyles = makeStyles({
   },
   media: {
     height: 140,
+  },
+  links: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 })
 
@@ -36,7 +41,13 @@ function Rating({ rating }) {
 
 function RestaurantCard({ restaurant, onRateRestaurant }) {
   const classes = useStyles()
-  const { name, photos, rating, description } = restaurant
+  const {
+    name,
+    photos,
+    rating,
+    description,
+    location: { lat, long },
+  } = restaurant
 
   const [mainPhoto] = photos
   return (
@@ -53,13 +64,18 @@ function RestaurantCard({ restaurant, onRateRestaurant }) {
           <Rating rating={rating} />
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions className={classes.links}>
         <Button size="small" color="primary" onClick={onRateRestaurant}>
           Rate
         </Button>
-        <Button size="small" color="primary">
+        <Link
+          variant="body2"
+          href={`https://maps.google.com/?q=${lat},${long}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Show in map
-        </Button>
+        </Link>
       </CardActions>
     </Card>
   )
