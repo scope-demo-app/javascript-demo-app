@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import Typography from '@material-ui/core/Typography'
+import TextField from '@material-ui/core/TextField'
 
 import RestaurantCard from './components/RestaurantCard'
 import RestaurantForm from './components/RestaurantForm'
 import RateModal from './components/RateModal'
-import { getRestaurants, LOCAL_ENDPOINT, rateRestaurant } from './api'
+import { LOCAL_ENDPOINT, rateRestaurant, findRestaurant } from './api'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -24,21 +25,57 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     backgroundColor: theme.palette.background.paper,
   },
+  searchBar: {
+    marginBottom: 20,
+  },
 }))
+
+export const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value)
+  let handler = useRef(null)
+
+  useEffect(() => {
+    handler.current = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => {
+      clearTimeout(handler.current)
+    }
+  }, [value, delay])
+
+  const forceValue = forcedValue => {
+    if (handler.current) {
+      clearTimeout(handler.current)
+    }
+    setDebouncedValue(forcedValue)
+  }
+
+  return [debouncedValue, forceValue]
+}
+
+const DEBOUNCE_TIME = 300
 
 function App() {
   const classes = useStyles()
   const [ratingRestaurant, setRatingRestaurant] = useState(null)
   const [snackbarOpen, setSnackbarOpen] = useState(false)
-  const [restaurants, setRestaurants] = useState([])
+  const [restaurants, setRestaurants] = useState({})
+
+  const [searchTerm, setSearchTerm] = useState('')
+  const [debouncedSearchTerm] = useDebounce(searchTerm, DEBOUNCE_TIME)
 
   useEffect(() => {
-    const fetchRestaurants = async () => {
-      const fetchedRestaurants = await getRestaurants()
-      setRestaurants(fetchedRestaurants)
+    const getRestaurantsByName = async () => {
+      const foundRestaurants = await findRestaurant({ name: debouncedSearchTerm })
+      let restaurantByKey = {}
+      for (let restaurant of foundRestaurants) {
+        restaurantByKey[restaurant.id] = restaurant
+      }
+      setRestaurants(restaurantByKey)
     }
-    fetchRestaurants()
-  }, [])
+    getRestaurantsByName()
+  }, [debouncedSearchTerm])
 
   function handleClose(event, reason) {
     if (reason === 'clickaway') {
@@ -49,7 +86,10 @@ function App() {
 
   function onSubmitRestaurant(newRestaurant) {
     if (!restaurants.find(restaurant => restaurant.id === newRestaurant.id)) {
-      setRestaurants(previousRestaurants => [newRestaurant, ...previousRestaurants])
+      setRestaurants(previousRestaurants => ({
+        ...previousRestaurants,
+        [newRestaurant.id]: newRestaurant,
+      }))
     }
   }
 
@@ -58,6 +98,14 @@ function App() {
       <Typography gutterBottom variant="h3" component="h3">
         Hamburguesía
       </Typography>
+      <TextField
+        id="search"
+        label="Search restaurant"
+        type="search"
+        className={classes.searchBar}
+        value={searchTerm}
+        onChange={({ target: { value } }) => setSearchTerm(value)}
+      />
       <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
           Thanks for your feedback!
@@ -66,27 +114,35 @@ function App() {
       <RateModal
         restaurant={ratingRestaurant}
         onClose={() => setRatingRestaurant(null)}
-        onSubmitReview={rating => {
-          rateRestaurant({ restaurantId: ratingRestaurant.id, rating })
+        onSubmitReview={async rating => {
+          const newRating = await rateRestaurant({ restaurantId: ratingRestaurant.id, rating })
+          setRestaurants(previousRestaurants => {
+            const newRestaurants = {
+              ...previousRestaurants,
+              [ratingRestaurant.id]: {
+                ...ratingRestaurant,
+                rating: newRating,
+              },
+            }
+            return newRestaurants
+          })
           setRatingRestaurant(null)
           setSnackbarOpen(true)
         }}
       />
       <div className={classes.cards}>
-        {restaurants
-          .map(restaurant => ({
-            ...restaurant,
-            images: restaurant.images
-              ? restaurant.images.map(image => `${LOCAL_ENDPOINT}${image}`)
-              : [],
-          }))
-          .map(restaurant => (
-            <RestaurantCard
-              key={restaurant.id}
-              restaurant={restaurant}
-              onRateRestaurant={() => setRatingRestaurant(restaurant)}
-            />
-          ))}
+        {Object.values(restaurants).map(restaurant => (
+          <RestaurantCard
+            key={restaurant.id}
+            restaurant={{
+              ...restaurant,
+              images: restaurant.images
+                ? restaurant.images.map(image => `${LOCAL_ENDPOINT}${image}`)
+                : [],
+            }}
+            onRateRestaurant={() => setRatingRestaurant(restaurant)}
+          />
+        ))}
       </div>
       <RestaurantForm onSubmitRestaurant={onSubmitRestaurant} />
     </div>

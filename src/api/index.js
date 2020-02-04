@@ -6,14 +6,14 @@ export async function getRestaurants({ endpoint = LOCAL_ENDPOINT } = {}) {
   return json
 }
 
-export async function getRestaurant({ endpoint, restaurantId } = {}) {
+export async function getRestaurant({ endpoint = LOCAL_ENDPOINT, restaurantId } = {}) {
   const response = await fetch(`${endpoint}/restaurants/${restaurantId}`)
   const json = await response.json()
   return json
 }
 
-export async function findRestaurant({ endpoint, name } = {}) {
-  const response = await fetch(`${endpoint}/restaurants?name=${name}`)
+export async function findRestaurant({ endpoint = LOCAL_ENDPOINT, name } = {}) {
+  const response = await fetch(`${endpoint}/restaurants${name ? `?name=${name}` : ''}`)
   const json = await response.json()
   return json
 }
@@ -35,5 +35,6 @@ export async function rateRestaurant({ endpoint = LOCAL_ENDPOINT, restaurantId, 
     method: 'POST',
     body: rating,
   })
-  return response
+  const newRating = await response.text()
+  return newRating
 }
