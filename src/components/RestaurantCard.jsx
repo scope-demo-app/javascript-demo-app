@@ -41,15 +41,9 @@ function Rating({ rating }) {
 
 function RestaurantCard({ restaurant, onRateRestaurant }) {
   const classes = useStyles()
-  const {
-    name,
-    photos,
-    rating,
-    description,
-    location: { lat, long },
-  } = restaurant
+  const { name, images, rating, description, latitude, longitude } = restaurant
 
-  const [mainPhoto] = photos
+  const [mainPhoto] = images
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -70,7 +64,7 @@ function RestaurantCard({ restaurant, onRateRestaurant }) {
         </Button>
         <Link
           variant="body2"
-          href={`https://maps.google.com/?q=${lat},${long}`}
+          href={`https://maps.google.com/?q=${latitude},${longitude}`}
           target="_blank"
           rel="noopener noreferrer"
         >

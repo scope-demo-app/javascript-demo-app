@@ -21,35 +21,42 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-function RestaurantForm() {
+function RestaurantForm({ onSubmitRestaurant }) {
   const classes = useStyles()
   const [name, setName] = useState('')
-  const [rating, setRating] = useState(3)
   const [description, setDescription] = useState('')
-  const [location, setLocation] = useState('')
-  const [photos, setPhotos] = useState([])
+  const [images, setImages] = useState([])
 
   function handleUploadImage({ target }) {
     for (let file of target.files) {
       let fileReader = new FileReader()
-      if (photos.find(({ name }) => name === file.name)) {
+      if (images.find(({ name }) => name === file.name)) {
         return
       }
       fileReader.readAsDataURL(file)
       fileReader.onload = ({ target: { result } }) => {
-        setPhotos(previousPhotos => [...previousPhotos, { name: file.name, blob: result }])
+        const [, data] = result.split(',')
+        setImages(previousImages => [
+          ...previousImages,
+          { name: file.name, mimeType: file.type, data },
+        ])
       }
     }
   }
 
-  function onSubmit(event) {
+  async function onSubmit(event) {
     event.preventDefault()
-    submitRestaurant('http://localhost:8000', {
-      name,
-      rating,
-      description,
-      photos,
+    const newRestaurant = await submitRestaurant({
+      restaurant: {
+        name,
+        description,
+        images,
+      },
     })
+    onSubmitRestaurant(newRestaurant)
+    setName('')
+    setDescription('')
+    setImages([])
   }
 
   return (
@@ -67,17 +74,6 @@ function RestaurantForm() {
             value={name}
           />
           <TextField
-            id="rating"
-            label="Rating"
-            type="number"
-            inputProps={{
-              min: '1',
-              max: '5',
-            }}
-            value={rating}
-            onChange={({ target: { value } }) => setRating(value)}
-          />
-          <TextField
             id="description"
             label="Description"
             multiline
@@ -88,16 +84,7 @@ function RestaurantForm() {
             }}
             onChange={({ target: { value } }) => setDescription(value)}
           />
-          <TextField
-            id="location"
-            label="Location"
-            value={location}
-            inputProps={{
-              maxLength: '200',
-            }}
-            onChange={({ target: { value } }) => setLocation(value)}
-          />
-          {photos.map(({ name }) => (
+          {images.map(({ name }) => (
             <span key={name}>{name}</span>
           ))}
           <input

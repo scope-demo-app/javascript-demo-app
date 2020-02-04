@@ -1,23 +1,25 @@
-export async function getRestaurants(endpoint) {
+export const LOCAL_ENDPOINT = 'http://192.168.1.28:8081'
+
+export async function getRestaurants({ endpoint = LOCAL_ENDPOINT } = {}) {
   const response = await fetch(`${endpoint}/restaurants`)
   const json = await response.json()
   return json
 }
 
-export async function getRestaurant(endpoint, restaurantId) {
+export async function getRestaurant({ endpoint, restaurantId } = {}) {
   const response = await fetch(`${endpoint}/restaurants/${restaurantId}`)
   const json = await response.json()
   return json
 }
 
-export async function findRestaurant(endpoint, name) {
+export async function findRestaurant({ endpoint, name } = {}) {
   const response = await fetch(`${endpoint}/restaurants?name=${name}`)
   const json = await response.json()
   return json
 }
 
-export async function submitRestaurant(endpoint, restaurant) {
-  const response = await fetch(`${endpoint}/restaurants/`, {
+export async function submitRestaurant({ endpoint = LOCAL_ENDPOINT, restaurant } = {}) {
+  const response = await fetch(`${endpoint}/restaurants`, {
     method: 'POST',
     body: JSON.stringify(restaurant),
     headers: {
@@ -26,4 +28,12 @@ export async function submitRestaurant(endpoint, restaurant) {
   })
   const json = await response.json()
   return json
+}
+
+export async function rateRestaurant({ endpoint = LOCAL_ENDPOINT, restaurantId, rating }) {
+  const response = await fetch(`${endpoint}/rating/${restaurantId}`, {
+    method: 'POST',
+    body: rating,
+  })
+  return response
 }
