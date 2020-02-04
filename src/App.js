@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import './App.css'
 import { makeStyles } from '@material-ui/core/styles'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
