@@ -67,7 +67,7 @@ function App() {
 
   useEffect(() => {
     const getRestaurantsByName = async () => {
-      const foundRestaurants = await findRestaurant({ name: debouncedSearchTerm })
+      const foundRestaurants = (await findRestaurant({ name: debouncedSearchTerm })) || []
       let restaurantByKey = {}
       for (let restaurant of foundRestaurants) {
         restaurantByKey[restaurant.id] = restaurant
@@ -85,7 +85,7 @@ function App() {
   }
 
   function onSubmitRestaurant(newRestaurant) {
-    if (!restaurants.find(restaurant => restaurant.id === newRestaurant.id)) {
+    if (!restaurants[newRestaurant.id]) {
       setRestaurants(previousRestaurants => ({
         ...previousRestaurants,
         [newRestaurant.id]: newRestaurant,

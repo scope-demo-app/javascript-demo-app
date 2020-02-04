@@ -40,11 +40,11 @@ function RateModal({ restaurant, onClose, onSubmitReview }) {
               setRating(0)
             }}
           >
-            {rating >= 1 ? <Star /> : <StarBorder />}
-            {rating >= 2 ? <Star /> : <StarBorder />}
-            {rating >= 3 ? <Star /> : <StarBorder />}
-            {rating >= 4 ? <Star /> : <StarBorder />}
-            {rating >= 5 ? <Star /> : <StarBorder />}
+            {rating >= 1 ? <Star id={`rate-star-${1}`} /> : <StarBorder id={`rate-star-${1}`} />}
+            {rating >= 2 ? <Star id={`rate-star-${2}`} /> : <StarBorder id={`rate-star-${2}`} />}
+            {rating >= 3 ? <Star id={`rate-star-${3}`} /> : <StarBorder id={`rate-star-${3}`} />}
+            {rating >= 4 ? <Star id={`rate-star-${4}`} /> : <StarBorder id={`rate-star-${4}`} />}
+            {rating >= 5 ? <Star id={`rate-star-${5}`} /> : <StarBorder id={`rate-star-${5}`} />}
           </div>
         </DialogContent>
       )}

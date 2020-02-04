@@ -26,13 +26,13 @@ const useStyles = makeStyles({
   },
 })
 
-function Rating({ rating }) {
+function Rating({ rating, name }) {
   const rounded = Math.floor(rating)
   const showHalf = rating - rounded > 0.5
   return (
     <>
       {Array.from({ length: rounded }).map((el, i) => (
-        <StarRateIcon key={i} />
+        <StarRateIcon key={i} className={`current-rate-${name}`} />
       ))}
       {showHalf && <StarHalfIcon style={{ width: '20px' }} />}
     </>
@@ -49,17 +49,17 @@ function RestaurantCard({ restaurant, onRateRestaurant }) {
       <CardActionArea>
         <CardMedia className={classes.media} image={mainPhoto} title={name} />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2" id={name}>
             {name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {description}
           </Typography>
-          <Rating rating={rating} />
+          <Rating rating={rating} name={name} />
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.links}>
-        <Button size="small" color="primary" onClick={onRateRestaurant}>
+        <Button size="small" color="primary" onClick={onRateRestaurant} id={`rate-${name}`}>
           Rate
         </Button>
         <Link
