@@ -3,6 +3,7 @@ import './App.css'
 import { makeStyles } from '@material-ui/core/styles'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
+import Typography from '@material-ui/core/Typography'
 
 import RestaurantCard from './components/RestaurantCard'
 import RestaurantForm from './components/RestaurantForm'
@@ -15,11 +16,13 @@ function Alert(props) {
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
+    flexDirection: 'column',
     padding: 20,
+  },
+  cards: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    backgroundColor: theme.palette.background.paper,
   },
 }))
 
@@ -119,6 +122,9 @@ function App() {
 
   return (
     <div className={classes.root}>
+      <Typography gutterBottom variant="h3" component="h3">
+        Hamburguesía
+      </Typography>
       <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
           Thanks for your feedback!
@@ -132,13 +138,15 @@ function App() {
           setSnackbarOpen(true)
         }}
       />
-      {restaurants.map(restaurant => (
-        <RestaurantCard
-          key={restaurant.id}
-          restaurant={restaurant}
-          onRateRestaurant={() => setRatingRestaurant(restaurant)}
-        />
-      ))}
+      <div className={classes.cards}>
+        {restaurants.map(restaurant => (
+          <RestaurantCard
+            key={restaurant.id}
+            restaurant={restaurant}
+            onRateRestaurant={() => setRatingRestaurant(restaurant)}
+          />
+        ))}
+      </div>
       <RestaurantForm />
     </div>
   )
