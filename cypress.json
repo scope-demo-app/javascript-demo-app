@@ -1,6 +1,5 @@
 {
   "integrationFolder": "cypress/integration",
-  "fixturesFolder": false,
   "baseUrl": "http://localhost:3000",
   "supportFile": "cypress/support/index.js",
   "pluginsFile": "cypress/plugins/index.js",

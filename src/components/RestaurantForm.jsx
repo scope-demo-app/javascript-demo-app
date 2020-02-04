@@ -90,12 +90,12 @@ function RestaurantForm({ onSubmitRestaurant }) {
           <input
             accept="image/*"
             style={{ display: 'none' }}
-            id="file"
+            id="imageUpload"
             multiple
             type="file"
             onChange={handleUploadImage}
           />
-          <label htmlFor="file">
+          <label htmlFor="imageUpload">
             <Button component="span">Upload Photos</Button>
           </label>
           <Button type="submit">Submit</Button>

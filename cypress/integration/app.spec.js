@@ -1,3 +1,5 @@
+const fileName = 'scope.png'
+
 describe('app', () => {
   const restaurantToAdd = `newrestaurant${1 + Math.floor(Math.random() * 1e6)}`
   it('can visit the app', () => {
@@ -13,11 +15,17 @@ describe('app', () => {
       .get('#description')
       .type('description that is really good')
       .wait(1000)
-      .get('[type=submit]')
-      .click()
-      .wait(1000)
-      .findByText(restaurantToAdd)
-      .should('exist')
+      .fixture(fileName)
+      .then(fileContent => {
+        cy.get('#imageUpload')
+          .upload({ fileContent, fileName, mimeType: 'image/png' })
+          .wait(1000)
+          .get('[type=submit]')
+          .click()
+          .wait(1000)
+          .findByText(restaurantToAdd)
+          .should('exist')
+      })
   })
   it('can search for a restaurant', () => {
     cy.visit('/')

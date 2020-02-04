@@ -42,6 +42,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@undefinedlabs/scope-agent": "^0.3.5",
-    "cypress": "^3.8.3"
+    "cypress": "^3.8.3",
+    "cypress-file-upload": "^3.5.3"
   }
 }
