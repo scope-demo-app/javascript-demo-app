@@ -15,9 +15,12 @@ jobs:
           node-version: 12
       - name: Install dependencies
         run: yarn
-      - name: Run unit tests
-        run: yarn test:unit
       - name: Start app
         run: yarn start &
-      - name: Run e2e tests
-        run: yarn test:e2e
+      - name: Scope for Javascript
+        uses: undefinedlabs/scope-for-javascript-action@v1
+        with:
+          dsn: ${{secrets.SCOPE_DSN}}
+          jest-command: yarn test:unit
+          cypress-command: yarn test:e2e
+          cypress-endpoint: http://localhost:3000
