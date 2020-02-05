@@ -4,15 +4,17 @@ describe('app', () => {
   const restaurantToAdd = `newrestaurant${1 + Math.floor(Math.random() * 1e6)}`
   it('can visit the app', () => {
     cy.visit('/')
+      .wait(2000)
       .findByText(/submit a new restaurant/i)
       .should('exist')
   })
   it('can submit a new restaurant', () => {
     cy.visit('/')
-      .get('#name')
+      .wait(2000)
+      .get('#submit-name')
       .type(restaurantToAdd)
       .wait(1000)
-      .get('#description')
+      .get('#submit-description')
       .type('description that is really good')
       .wait(1000)
       .fixture(fileName)
@@ -29,6 +31,7 @@ describe('app', () => {
   })
   it('can search for a restaurant', () => {
     cy.visit('/')
+      .wait(2000)
       .get('#search')
       .type(restaurantToAdd)
       .wait(3000)
@@ -39,6 +42,7 @@ describe('app', () => {
   })
   it('can rate a restaurant', () => {
     cy.visit('/')
+      .wait(2000)
       .get('#search')
       .type(restaurantToAdd)
       .wait(1000)

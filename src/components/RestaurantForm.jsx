@@ -68,13 +68,13 @@ function RestaurantForm({ onSubmitRestaurant }) {
           </Typography>
           <TextField
             required
-            id="name"
+            id="submit-name"
             label="Name"
             onChange={({ target: { value } }) => setName(value)}
             value={name}
           />
           <TextField
-            id="description"
+            id="submit-description"
             label="Description"
             multiline
             rowsMax="4"
