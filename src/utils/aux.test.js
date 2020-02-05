@@ -77,19 +77,23 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+function wait(sec) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve()
+    }, sec * 1000)
+  })
+}
+
 describe('aux tests', () => {
   randomNames.forEach((name, index) => {
-    it(`can calculate name for ${name}`, done => {
+    it(`can calculate name for ${name}`, async () => {
       if (index < 50) {
-        setTimeout(() => {
-          expect(true).toBe(true)
-          done()
-        }, Math.random() * 1000)
+        await wait(Math.random())
+        expect(true).toBe(true)
       } else {
-        setTimeout(() => {
-          expect(true).toBe(true)
-          done()
-        }, getRandomInt(1, 30) * 1000)
+        await wait(getRandomInt(1, 30))
+        expect(true).toBe(true)
       }
     })
   })
