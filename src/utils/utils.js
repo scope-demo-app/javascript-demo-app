@@ -2,7 +2,6 @@ import { parseISO, differenceInMilliseconds, getTime } from 'date-fns'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import maxBy from 'lodash/maxBy'
-import isArray from 'lodash/isArray'
 import lt from 'semver/functions/lt'
 
 export function getEventLevel(eventFieldsMap) {

@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import RestaurantCard from './components/RestaurantCard'
 import RestaurantForm from './components/RestaurantForm'
 import RateModal from './components/RateModal'
-import { LOCAL_ENDPOINT, rateRestaurant, findRestaurant } from './api'
+import { API_ENDPOINT, rateRestaurant, findRestaurant } from './api'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -137,7 +137,7 @@ function App() {
             restaurant={{
               ...restaurant,
               images: restaurant.images
-                ? restaurant.images.map(image => `${LOCAL_ENDPOINT}${image}`)
+                ? restaurant.images.map(image => `${API_ENDPOINT}${image}`)
                 : [],
             }}
             onRateRestaurant={() => setRatingRestaurant(restaurant)}
