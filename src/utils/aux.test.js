@@ -97,4 +97,7 @@ describe('aux tests', () => {
       }
     })
   })
+  it('can run feature 1', () => {
+    expect(true).toBe(true)
+  })
 })
