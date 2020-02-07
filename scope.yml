@@ -4,6 +4,6 @@ scope:
     enabled: true
     http:
       payload: true
-    headers:
-      - ot-tracer-traceid
-      - ot-tracer-spanid
+      headers:
+        - ot-tracer-traceid
+        - ot-tracer-spanid
