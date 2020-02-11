@@ -1,6 +1,6 @@
 const fileName = 'scope.png'
 
-describe('app', () => {
+describe('integration tests', () => {
   const restaurantToAdd = `newrestaurant${1 + Math.floor(Math.random() * 1e6)}`
   it('can visit the app', () => {
     cy.visit('/')
