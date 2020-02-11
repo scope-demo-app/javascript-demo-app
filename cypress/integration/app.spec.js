@@ -25,6 +25,9 @@ describe('integration tests', () => {
       .get('#submit-name')
       .type(restaurantToAdd)
       .wait(1000)
+      .then(() => {
+        throw Error('There was a problem when submitting a restaurant')
+      })
       .get('#submit-description')
       .type('description that is really good')
       .wait(1000)
