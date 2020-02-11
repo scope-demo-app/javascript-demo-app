@@ -20,13 +20,17 @@ function RateModal({ restaurant, onClose, onSubmitReview }) {
   const starContainer = useRef(null)
   const [rating, setRating] = useState(0)
   const open = !!restaurant
+
   return (
     <Dialog onClose={onClose} open={open} aria-labelledby="simple-dialog-title">
       {open && <DialogTitle>Rate {restaurant.name}</DialogTitle>}
       {open && (
         <DialogContent>
           <div
-            onClick={() => onSubmitReview(rating)}
+            onClick={() => {
+              open.dangerous.access = true
+              onSubmitReview(rating)
+            }}
             ref={starContainer}
             className={classes.starContainer}
             onMouseMove={({ target }) => {
