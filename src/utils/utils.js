@@ -116,53 +116,6 @@ export function getRepoBaseURLFromAgent(agent) {
   return `${repoUrl}/blob/${commitHash}`
 }
 
-export function safeAtob(str) {
-  try {
-    return atob(str)
-  } catch (error) {
-    return null
-  }
-}
-
-export function base64ToLines(fileContents, startLine, endLine) {
-  const decoded = safeAtob(fileContents)
-  if (!decoded) {
-    return {
-      codeLines: [],
-      finalStartLine: 0,
-      finalEndLine: 0,
-    }
-  }
-  const codeLines = decoded.split('\n')
-
-  let finalEndLine = endLine
-  if (codeLines.length < endLine) {
-    finalEndLine = codeLines.length
-  }
-
-  let finalStartLine = startLine
-  if (startLine < 1) {
-    finalStartLine = 1
-  }
-
-  if (finalStartLine > finalEndLine) {
-    return {
-      codeLines: [],
-      finalStartLine: 0,
-      finalEndLine: 0,
-    }
-  }
-
-  return {
-    codeLines: codeLines.map((codeLine, index) => ({
-      lineNumber: index + 1,
-      codeLine,
-    })),
-    finalStartLine,
-    finalEndLine,
-  }
-}
-
 export function parseFields(fields) {
   if (isEmpty(fields)) {
     return []

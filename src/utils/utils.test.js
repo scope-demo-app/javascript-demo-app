@@ -2,7 +2,6 @@ import {
   removeNamespace,
   getSourceRootFromAgent,
   getRepoBaseURLFromAgent,
-  base64ToLines,
   getBranchStatus,
   getSpanTiming,
   getNanosecondsFromString,
@@ -134,108 +133,6 @@ describe('utils', () => {
       expect(result).toEqual('')
       result = getRepoBaseURLFromAgent(badAgent4)
       expect(result).toEqual('')
-    })
-  })
-  describe('base64ToLines', () => {
-    test('it transforms base 64 file contents to code lines', () => {
-      const input =
-        'IyBzY29wZS1jb3JlCgpTY29wZSBjb3JlIHNlcnZlcgoKIyMgSW5zdGFsbGF0\naW9uCgpRdWljayBpbnN0YWxsYXRpb24gd2l0aCBidWlsdC1pbiBQb3N0Z3Jl\nU1FMIGFuZCBSZWRpcyBzZXJ2ZXJzOgoKYGBgCmt1YmVjdGwgYXBwbHkgLWYg\naHR0cHM6Ly9ob21lLmNvZGVzY29wZS5jb20vaW5zdGFsbGVyLnltbApgYGAK\nCkZvciBtb3JlIGFkdmFuY2VkIG9wdGlvbnMsIHJ1biBgLi9tYW5hZ2UucHkg\naW5zdGFsbCAtLWhlbHBgIGFuZCBhbWVuZCB0aGUgYWJvdmUgWUFNTCBmaWxl\nIGFwcHJvcHJpYXRlbHkgcHJpb3IgdG8gYGFwcGx5YC1pbmcgaXQKCgojIyBF\nbmRwb2ludHMKCnwgUGF0aCB8IERlc2NyaXB0aW9uIHwKfC0tLS0tLXwtLS0t\nLS0tLS0tLS0tfAp8IGAvZ3JhcGhxbGAgfCBHcmFwaFFMIGVuZHBvaW50IHwK\nfCBgL2FwaS9vYXV0aC9sb2dpbi9naXRodWJgIHwgRW5kcG9pbnQgdG8gc3Rh\ncnQgdGhlIE9BdXRoMiBsb2dpbiBmbG93IGZvciB0aGUgY29uZmlndXJlZCBH\nSEUgaW5zdGFuY2UgfAp8IGAvYXBpL2dpdGh1Yi93ZWJob29rYCB8IEVuZHBv\naW50IHRvIHJlY2VpdmUgR2l0SHViIHdlYmhvb2tzIHwKfCBgL2FwaS9hZ2Vu\ndC9pbmdlc3RgIHwgRW5kcG9pbnQgdG8gcmVjZWl2ZSBhZ2VudCB0cmFjZSBk\nYXRhIHwKfCBgL2FwaS9hZG1pbi9sb2dpbmAgfCBFbmRwb2ludCB0byBsb2dp\nbiBhZG1pbiBhY2NvdW50cyAoUE9TVCkgfAp8IGAvYXBpL2xvZ291dGAgfCBF\nbmRwb2ludCB0byBsb2dvdXQgdGhlIGN1cnJlbnQgdXNlciB8CgpHcmFwaGlR\nTCBpbnRlcmZhY2UgaXMgYXZhaWxhYmxlIGF0IGAvZ3JhcGhxbGAuCgpTd2Fn\nZ2VyIGludGVyZmFjZSAoZm9yIFJFU1QgQVBJKSBpcyBhdmFpbGFibGUgYXQg\nYC9hcGlgLgoKCiMjIFNldHRpbmdzCgpTZXR0aW5ncyBhcmUgcmVhZCBpbiB0\naGUgZm9sbG93aW5nIG9yZGVyOgoKMS4gRnJvbSBhbiBlbnZpcm9ubWVudCB2\nYXJpYWJsZSB3aXRoIGtleSBgPEtFWT5gLgoyLiBGcm9tIGEgZmlsZSBmb3Vu\nZCBgPFNDT1BFX1NFVFRJTkdTX1BBVEg+LzxrZXk+YCwgd2hlcmUgYFNDT1BF\nX1NFVFRJTkdTX1BBVEhgIGNvbnRhaW5zIGEgY29tbWEtc2VwYXJhdGVkIGxp\nc3Qgb2YgcGF0aHMgKGRlZmF1bHQ6IGAvZXRjL2NvbmZpZywvZXRjL3NlY3Jl\ndHNgKS4KCndoZXJlIGA8S0VZPmAgaXMgdGhlIG5hbWUgb2YgdGhlIGNvbmZp\nZ3VyYXRpb24gc2V0dGluZy4KCnwgS2V5IHwgRGVmYXVsdCB2YWx1ZSB8IERl\nc2NyaXB0aW9uIHwKfC0tLS0tfC0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0t\nLS0tfAp8IFNDT1BFX0RCX0RTTiB8IHwgRGF0YWJhc2UgRFNOIChlLmcuIGBw\nb3N0Z3Jlc3FsOi8vc2NvcGU6c2NvcGVAZGI6NTQzMi9zY29wZWApIHwKfCBT\nQ09QRV9SRURJU19EU04gfCB8IFJlZGlzIERTTiAoZS5nLiBgcmVkaXM6Ly9j\nYWNoZTo2Mzc5YCkgfAp8IFNFQ1JFVF9LRVkgfCB8IFNlY3JldCBrZXkgdG8g\ndXNlIGluIGNyeXB0b2dyYXBoaWMgb3BlcmF0aW9ucyB8CnwgREVCVUcgfCBg\nRmFsc2VgIHwgV2hldGhlciB0byBleGVjdXRlIHRoZSBhcHAgaW4gZGVidWcg\nbW9kZSBvciBub3QgfAoKCgojIyBMaWNlbnNlCgpDb3B5cmlnaHQgwqkgMjAx\nOSBVbmRlZmluZWQgTGFicywgSW5jLiBBbGwgcmlnaHRzIHJlc2VydmVkLgoK\nVGhpcyBzb2Z0d2FyZSBpbmNsdWRlcyB0aGlyZCBwYXJ0eSBjb21wb25lbnRz\nIHJlbGVhc2VkIHVuZGVyIG9wZW4gc291cmNlIGxpY2Vuc2VzLiAKW0NsaWNr\nIGhlcmUgdG8gc2VlIHRoZSBmdWxsIGxpc3RdKGh0dHBzOi8vYXBwLmZvc3Nh\nLmlvL2F0dHJpYnV0aW9uLzU0YTNlOTdjLWQ1OGItNDIzMi1iY2Y3LTE4MWI1\nYmI1ZWFjYSkK'
-      const startLine = 5
-      const endLine = 8
-      const { codeLines, finalStartLine, finalEndLine } = base64ToLines(input, startLine, endLine)
-      expect(codeLines.slice(finalStartLine - 1, finalEndLine)).toEqual([
-        {
-          lineNumber: 5,
-          codeLine: '## Installation',
-        },
-        {
-          lineNumber: 6,
-          codeLine: '',
-        },
-        {
-          lineNumber: 7,
-          codeLine: 'Quick installation with built-in PostgreSQL and Redis servers:',
-        },
-        {
-          lineNumber: 8,
-          codeLine: '',
-        },
-      ])
-    })
-    test('it does not crash with badly formatted input', () => {
-      const invalidInput = 'notbase64'
-      const startLine = 3
-      const endLine = 6
-      const { codeLines } = base64ToLines(invalidInput, startLine, endLine)
-      expect(codeLines).toEqual([])
-    })
-    test('it does not crash with lines out of bound', () => {
-      const validInput =
-        'IyBzY29wZS1jb3JlCgpTY29wZSBjb3JlIHNlcnZlcgoKIyMgSW5zdGFsbGF0\naW9uCgpRdWljayBpbnN0YWxsYXRpb24gd2l0aCBidWlsdC1pbiBQb3N0Z3Jl\nU1FMIGFuZCBSZWRpcyBzZXJ2ZXJzOgoKYGBgCmt1YmVjdGwgYXBwbHkgLWYg\naHR0cHM6Ly9ob21lLmNvZGVzY29wZS5jb20vaW5zdGFsbGVyLnltbApgYGAK\nCkZvciBtb3JlIGFkdmFuY2VkIG9wdGlvbnMsIHJ1biBgLi9tYW5hZ2UucHkg\naW5zdGFsbCAtLWhlbHBgIGFuZCBhbWVuZCB0aGUgYWJvdmUgWUFNTCBmaWxl\nIGFwcHJvcHJpYXRlbHkgcHJpb3IgdG8gYGFwcGx5YC1pbmcgaXQKCgojIyBF\nbmRwb2ludHMKCnwgUGF0aCB8IERlc2NyaXB0aW9uIHwKfC0tLS0tLXwtLS0t\nLS0tLS0tLS0tfAp8IGAvZ3JhcGhxbGAgfCBHcmFwaFFMIGVuZHBvaW50IHwK\nfCBgL2FwaS9vYXV0aC9sb2dpbi9naXRodWJgIHwgRW5kcG9pbnQgdG8gc3Rh\ncnQgdGhlIE9BdXRoMiBsb2dpbiBmbG93IGZvciB0aGUgY29uZmlndXJlZCBH\nSEUgaW5zdGFuY2UgfAp8IGAvYXBpL2dpdGh1Yi93ZWJob29rYCB8IEVuZHBv\naW50IHRvIHJlY2VpdmUgR2l0SHViIHdlYmhvb2tzIHwKfCBgL2FwaS9hZ2Vu\ndC9pbmdlc3RgIHwgRW5kcG9pbnQgdG8gcmVjZWl2ZSBhZ2VudCB0cmFjZSBk\nYXRhIHwKfCBgL2FwaS9hZG1pbi9sb2dpbmAgfCBFbmRwb2ludCB0byBsb2dp\nbiBhZG1pbiBhY2NvdW50cyAoUE9TVCkgfAp8IGAvYXBpL2xvZ291dGAgfCBF\nbmRwb2ludCB0byBsb2dvdXQgdGhlIGN1cnJlbnQgdXNlciB8CgpHcmFwaGlR\nTCBpbnRlcmZhY2UgaXMgYXZhaWxhYmxlIGF0IGAvZ3JhcGhxbGAuCgpTd2Fn\nZ2VyIGludGVyZmFjZSAoZm9yIFJFU1QgQVBJKSBpcyBhdmFpbGFibGUgYXQg\nYC9hcGlgLgoKCiMjIFNldHRpbmdzCgpTZXR0aW5ncyBhcmUgcmVhZCBpbiB0\naGUgZm9sbG93aW5nIG9yZGVyOgoKMS4gRnJvbSBhbiBlbnZpcm9ubWVudCB2\nYXJpYWJsZSB3aXRoIGtleSBgPEtFWT5gLgoyLiBGcm9tIGEgZmlsZSBmb3Vu\nZCBgPFNDT1BFX1NFVFRJTkdTX1BBVEg+LzxrZXk+YCwgd2hlcmUgYFNDT1BF\nX1NFVFRJTkdTX1BBVEhgIGNvbnRhaW5zIGEgY29tbWEtc2VwYXJhdGVkIGxp\nc3Qgb2YgcGF0aHMgKGRlZmF1bHQ6IGAvZXRjL2NvbmZpZywvZXRjL3NlY3Jl\ndHNgKS4KCndoZXJlIGA8S0VZPmAgaXMgdGhlIG5hbWUgb2YgdGhlIGNvbmZp\nZ3VyYXRpb24gc2V0dGluZy4KCnwgS2V5IHwgRGVmYXVsdCB2YWx1ZSB8IERl\nc2NyaXB0aW9uIHwKfC0tLS0tfC0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0t\nLS0tfAp8IFNDT1BFX0RCX0RTTiB8IHwgRGF0YWJhc2UgRFNOIChlLmcuIGBw\nb3N0Z3Jlc3FsOi8vc2NvcGU6c2NvcGVAZGI6NTQzMi9zY29wZWApIHwKfCBT\nQ09QRV9SRURJU19EU04gfCB8IFJlZGlzIERTTiAoZS5nLiBgcmVkaXM6Ly9j\nYWNoZTo2Mzc5YCkgfAp8IFNFQ1JFVF9LRVkgfCB8IFNlY3JldCBrZXkgdG8g\ndXNlIGluIGNyeXB0b2dyYXBoaWMgb3BlcmF0aW9ucyB8CnwgREVCVUcgfCBg\nRmFsc2VgIHwgV2hldGhlciB0byBleGVjdXRlIHRoZSBhcHAgaW4gZGVidWcg\nbW9kZSBvciBub3QgfAoKCgojIyBMaWNlbnNlCgpDb3B5cmlnaHQgwqkgMjAx\nOSBVbmRlZmluZWQgTGFicywgSW5jLiBBbGwgcmlnaHRzIHJlc2VydmVkLgoK\nVGhpcyBzb2Z0d2FyZSBpbmNsdWRlcyB0aGlyZCBwYXJ0eSBjb21wb25lbnRz\nIHJlbGVhc2VkIHVuZGVyIG9wZW4gc291cmNlIGxpY2Vuc2VzLiAKW0NsaWNr\nIGhlcmUgdG8gc2VlIHRoZSBmdWxsIGxpc3RdKGh0dHBzOi8vYXBwLmZvc3Nh\nLmlvL2F0dHJpYnV0aW9uLzU0YTNlOTdjLWQ1OGItNDIzMi1iY2Y3LTE4MWI1\nYmI1ZWFjYSkK'
-      const startLine = 600
-      const endLine = 610
-      const { codeLines } = base64ToLines(validInput, startLine, endLine)
-      expect(codeLines).toEqual([])
-    })
-    test('it does not crash with invalid lines', () => {
-      const validInput =
-        'IyBzY29wZS1jb3JlCgpTY29wZSBjb3JlIHNlcnZlcgoKIyMgSW5zdGFsbGF0\naW9uCgpRdWljayBpbnN0YWxsYXRpb24gd2l0aCBidWlsdC1pbiBQb3N0Z3Jl\nU1FMIGFuZCBSZWRpcyBzZXJ2ZXJzOgoKYGBgCmt1YmVjdGwgYXBwbHkgLWYg\naHR0cHM6Ly9ob21lLmNvZGVzY29wZS5jb20vaW5zdGFsbGVyLnltbApgYGAK\nCkZvciBtb3JlIGFkdmFuY2VkIG9wdGlvbnMsIHJ1biBgLi9tYW5hZ2UucHkg\naW5zdGFsbCAtLWhlbHBgIGFuZCBhbWVuZCB0aGUgYWJvdmUgWUFNTCBmaWxl\nIGFwcHJvcHJpYXRlbHkgcHJpb3IgdG8gYGFwcGx5YC1pbmcgaXQKCgojIyBF\nbmRwb2ludHMKCnwgUGF0aCB8IERlc2NyaXB0aW9uIHwKfC0tLS0tLXwtLS0t\nLS0tLS0tLS0tfAp8IGAvZ3JhcGhxbGAgfCBHcmFwaFFMIGVuZHBvaW50IHwK\nfCBgL2FwaS9vYXV0aC9sb2dpbi9naXRodWJgIHwgRW5kcG9pbnQgdG8gc3Rh\ncnQgdGhlIE9BdXRoMiBsb2dpbiBmbG93IGZvciB0aGUgY29uZmlndXJlZCBH\nSEUgaW5zdGFuY2UgfAp8IGAvYXBpL2dpdGh1Yi93ZWJob29rYCB8IEVuZHBv\naW50IHRvIHJlY2VpdmUgR2l0SHViIHdlYmhvb2tzIHwKfCBgL2FwaS9hZ2Vu\ndC9pbmdlc3RgIHwgRW5kcG9pbnQgdG8gcmVjZWl2ZSBhZ2VudCB0cmFjZSBk\nYXRhIHwKfCBgL2FwaS9hZG1pbi9sb2dpbmAgfCBFbmRwb2ludCB0byBsb2dp\nbiBhZG1pbiBhY2NvdW50cyAoUE9TVCkgfAp8IGAvYXBpL2xvZ291dGAgfCBF\nbmRwb2ludCB0byBsb2dvdXQgdGhlIGN1cnJlbnQgdXNlciB8CgpHcmFwaGlR\nTCBpbnRlcmZhY2UgaXMgYXZhaWxhYmxlIGF0IGAvZ3JhcGhxbGAuCgpTd2Fn\nZ2VyIGludGVyZmFjZSAoZm9yIFJFU1QgQVBJKSBpcyBhdmFpbGFibGUgYXQg\nYC9hcGlgLgoKCiMjIFNldHRpbmdzCgpTZXR0aW5ncyBhcmUgcmVhZCBpbiB0\naGUgZm9sbG93aW5nIG9yZGVyOgoKMS4gRnJvbSBhbiBlbnZpcm9ubWVudCB2\nYXJpYWJsZSB3aXRoIGtleSBgPEtFWT5gLgoyLiBGcm9tIGEgZmlsZSBmb3Vu\nZCBgPFNDT1BFX1NFVFRJTkdTX1BBVEg+LzxrZXk+YCwgd2hlcmUgYFNDT1BF\nX1NFVFRJTkdTX1BBVEhgIGNvbnRhaW5zIGEgY29tbWEtc2VwYXJhdGVkIGxp\nc3Qgb2YgcGF0aHMgKGRlZmF1bHQ6IGAvZXRjL2NvbmZpZywvZXRjL3NlY3Jl\ndHNgKS4KCndoZXJlIGA8S0VZPmAgaXMgdGhlIG5hbWUgb2YgdGhlIGNvbmZp\nZ3VyYXRpb24gc2V0dGluZy4KCnwgS2V5IHwgRGVmYXVsdCB2YWx1ZSB8IERl\nc2NyaXB0aW9uIHwKfC0tLS0tfC0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0t\nLS0tfAp8IFNDT1BFX0RCX0RTTiB8IHwgRGF0YWJhc2UgRFNOIChlLmcuIGBw\nb3N0Z3Jlc3FsOi8vc2NvcGU6c2NvcGVAZGI6NTQzMi9zY29wZWApIHwKfCBT\nQ09QRV9SRURJU19EU04gfCB8IFJlZGlzIERTTiAoZS5nLiBgcmVkaXM6Ly9j\nYWNoZTo2Mzc5YCkgfAp8IFNFQ1JFVF9LRVkgfCB8IFNlY3JldCBrZXkgdG8g\ndXNlIGluIGNyeXB0b2dyYXBoaWMgb3BlcmF0aW9ucyB8CnwgREVCVUcgfCBg\nRmFsc2VgIHwgV2hldGhlciB0byBleGVjdXRlIHRoZSBhcHAgaW4gZGVidWcg\nbW9kZSBvciBub3QgfAoKCgojIyBMaWNlbnNlCgpDb3B5cmlnaHQgwqkgMjAx\nOSBVbmRlZmluZWQgTGFicywgSW5jLiBBbGwgcmlnaHRzIHJlc2VydmVkLgoK\nVGhpcyBzb2Z0d2FyZSBpbmNsdWRlcyB0aGlyZCBwYXJ0eSBjb21wb25lbnRz\nIHJlbGVhc2VkIHVuZGVyIG9wZW4gc291cmNlIGxpY2Vuc2VzLiAKW0NsaWNr\nIGhlcmUgdG8gc2VlIHRoZSBmdWxsIGxpc3RdKGh0dHBzOi8vYXBwLmZvc3Nh\nLmlvL2F0dHJpYnV0aW9uLzU0YTNlOTdjLWQ1OGItNDIzMi1iY2Y3LTE4MWI1\nYmI1ZWFjYSkK'
-      const startLine = 600
-      const badEndLine = 510
-      const { codeLines } = base64ToLines(validInput, startLine, badEndLine)
-      expect(codeLines).toEqual([])
-    })
-    test('it sets the end line to the end of the file if the input is bigger', () => {
-      const validInput =
-        'IyBzY29wZS1jb3JlCgpTY29wZSBjb3JlIHNlcnZlcgoKIyMgSW5zdGFsbGF0\naW9uCgpRdWljayBpbnN0YWxsYXRpb24gd2l0aCBidWlsdC1pbiBQb3N0Z3Jl\nU1FMIGFuZCBSZWRpcyBzZXJ2ZXJzOgoKYGBgCmt1YmVjdGwgYXBwbHkgLWYg\naHR0cHM6Ly9ob21lLmNvZGVzY29wZS5jb20vaW5zdGFsbGVyLnltbApgYGAK\nCkZvciBtb3JlIGFkdmFuY2VkIG9wdGlvbnMsIHJ1biBgLi9tYW5hZ2UucHkg\naW5zdGFsbCAtLWhlbHBgIGFuZCBhbWVuZCB0aGUgYWJvdmUgWUFNTCBmaWxl\nIGFwcHJvcHJpYXRlbHkgcHJpb3IgdG8gYGFwcGx5YC1pbmcgaXQKCgojIyBF\nbmRwb2ludHMKCnwgUGF0aCB8IERlc2NyaXB0aW9uIHwKfC0tLS0tLXwtLS0t\nLS0tLS0tLS0tfAp8IGAvZ3JhcGhxbGAgfCBHcmFwaFFMIGVuZHBvaW50IHwK\nfCBgL2FwaS9vYXV0aC9sb2dpbi9naXRodWJgIHwgRW5kcG9pbnQgdG8gc3Rh\ncnQgdGhlIE9BdXRoMiBsb2dpbiBmbG93IGZvciB0aGUgY29uZmlndXJlZCBH\nSEUgaW5zdGFuY2UgfAp8IGAvYXBpL2dpdGh1Yi93ZWJob29rYCB8IEVuZHBv\naW50IHRvIHJlY2VpdmUgR2l0SHViIHdlYmhvb2tzIHwKfCBgL2FwaS9hZ2Vu\ndC9pbmdlc3RgIHwgRW5kcG9pbnQgdG8gcmVjZWl2ZSBhZ2VudCB0cmFjZSBk\nYXRhIHwKfCBgL2FwaS9hZG1pbi9sb2dpbmAgfCBFbmRwb2ludCB0byBsb2dp\nbiBhZG1pbiBhY2NvdW50cyAoUE9TVCkgfAp8IGAvYXBpL2xvZ291dGAgfCBF\nbmRwb2ludCB0byBsb2dvdXQgdGhlIGN1cnJlbnQgdXNlciB8CgpHcmFwaGlR\nTCBpbnRlcmZhY2UgaXMgYXZhaWxhYmxlIGF0IGAvZ3JhcGhxbGAuCgpTd2Fn\nZ2VyIGludGVyZmFjZSAoZm9yIFJFU1QgQVBJKSBpcyBhdmFpbGFibGUgYXQg\nYC9hcGlgLgoKCiMjIFNldHRpbmdzCgpTZXR0aW5ncyBhcmUgcmVhZCBpbiB0\naGUgZm9sbG93aW5nIG9yZGVyOgoKMS4gRnJvbSBhbiBlbnZpcm9ubWVudCB2\nYXJpYWJsZSB3aXRoIGtleSBgPEtFWT5gLgoyLiBGcm9tIGEgZmlsZSBmb3Vu\nZCBgPFNDT1BFX1NFVFRJTkdTX1BBVEg+LzxrZXk+YCwgd2hlcmUgYFNDT1BF\nX1NFVFRJTkdTX1BBVEhgIGNvbnRhaW5zIGEgY29tbWEtc2VwYXJhdGVkIGxp\nc3Qgb2YgcGF0aHMgKGRlZmF1bHQ6IGAvZXRjL2NvbmZpZywvZXRjL3NlY3Jl\ndHNgKS4KCndoZXJlIGA8S0VZPmAgaXMgdGhlIG5hbWUgb2YgdGhlIGNvbmZp\nZ3VyYXRpb24gc2V0dGluZy4KCnwgS2V5IHwgRGVmYXVsdCB2YWx1ZSB8IERl\nc2NyaXB0aW9uIHwKfC0tLS0tfC0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0t\nLS0tfAp8IFNDT1BFX0RCX0RTTiB8IHwgRGF0YWJhc2UgRFNOIChlLmcuIGBw\nb3N0Z3Jlc3FsOi8vc2NvcGU6c2NvcGVAZGI6NTQzMi9zY29wZWApIHwKfCBT\nQ09QRV9SRURJU19EU04gfCB8IFJlZGlzIERTTiAoZS5nLiBgcmVkaXM6Ly9j\nYWNoZTo2Mzc5YCkgfAp8IFNFQ1JFVF9LRVkgfCB8IFNlY3JldCBrZXkgdG8g\ndXNlIGluIGNyeXB0b2dyYXBoaWMgb3BlcmF0aW9ucyB8CnwgREVCVUcgfCBg\nRmFsc2VgIHwgV2hldGhlciB0byBleGVjdXRlIHRoZSBhcHAgaW4gZGVidWcg\nbW9kZSBvciBub3QgfAoKCgojIyBMaWNlbnNlCgpDb3B5cmlnaHQgwqkgMjAx\nOSBVbmRlZmluZWQgTGFicywgSW5jLiBBbGwgcmlnaHRzIHJlc2VydmVkLgoK\nVGhpcyBzb2Z0d2FyZSBpbmNsdWRlcyB0aGlyZCBwYXJ0eSBjb21wb25lbnRz\nIHJlbGVhc2VkIHVuZGVyIG9wZW4gc291cmNlIGxpY2Vuc2VzLiAKW0NsaWNr\nIGhlcmUgdG8gc2VlIHRoZSBmdWxsIGxpc3RdKGh0dHBzOi8vYXBwLmZvc3Nh\nLmlvL2F0dHJpYnV0aW9uLzU0YTNlOTdjLWQ1OGItNDIzMi1iY2Y3LTE4MWI1\nYmI1ZWFjYSkK'
-      const startLine = 54
-      const badEndLine = 70
-      const { codeLines, finalStartLine, finalEndLine } = base64ToLines(
-        validInput,
-        startLine,
-        badEndLine
-      )
-      expect(codeLines.slice(finalStartLine - 1, finalEndLine)).toEqual([
-        {
-          lineNumber: 54,
-          codeLine:
-            'This software includes third party components released under open source licenses. ',
-        },
-        {
-          lineNumber: 55,
-          codeLine:
-            '[Click here to see the full list](https://app.fossa.io/attribution/54a3e97c-d58b-4232-bcf7-181b5bb5eaca)',
-        },
-        {
-          lineNumber: 56,
-          codeLine: '',
-        },
-      ])
-    })
-    test('it sets the start line to 1 if it is smaller than 1', () => {
-      const validInput =
-        'IyBzY29wZS1jb3JlCgpTY29wZSBjb3JlIHNlcnZlcgoKIyMgSW5zdGFsbGF0\naW9uCgpRdWljayBpbnN0YWxsYXRpb24gd2l0aCBidWlsdC1pbiBQb3N0Z3Jl\nU1FMIGFuZCBSZWRpcyBzZXJ2ZXJzOgoKYGBgCmt1YmVjdGwgYXBwbHkgLWYg\naHR0cHM6Ly9ob21lLmNvZGVzY29wZS5jb20vaW5zdGFsbGVyLnltbApgYGAK\nCkZvciBtb3JlIGFkdmFuY2VkIG9wdGlvbnMsIHJ1biBgLi9tYW5hZ2UucHkg\naW5zdGFsbCAtLWhlbHBgIGFuZCBhbWVuZCB0aGUgYWJvdmUgWUFNTCBmaWxl\nIGFwcHJvcHJpYXRlbHkgcHJpb3IgdG8gYGFwcGx5YC1pbmcgaXQKCgojIyBF\nbmRwb2ludHMKCnwgUGF0aCB8IERlc2NyaXB0aW9uIHwKfC0tLS0tLXwtLS0t\nLS0tLS0tLS0tfAp8IGAvZ3JhcGhxbGAgfCBHcmFwaFFMIGVuZHBvaW50IHwK\nfCBgL2FwaS9vYXV0aC9sb2dpbi9naXRodWJgIHwgRW5kcG9pbnQgdG8gc3Rh\ncnQgdGhlIE9BdXRoMiBsb2dpbiBmbG93IGZvciB0aGUgY29uZmlndXJlZCBH\nSEUgaW5zdGFuY2UgfAp8IGAvYXBpL2dpdGh1Yi93ZWJob29rYCB8IEVuZHBv\naW50IHRvIHJlY2VpdmUgR2l0SHViIHdlYmhvb2tzIHwKfCBgL2FwaS9hZ2Vu\ndC9pbmdlc3RgIHwgRW5kcG9pbnQgdG8gcmVjZWl2ZSBhZ2VudCB0cmFjZSBk\nYXRhIHwKfCBgL2FwaS9hZG1pbi9sb2dpbmAgfCBFbmRwb2ludCB0byBsb2dp\nbiBhZG1pbiBhY2NvdW50cyAoUE9TVCkgfAp8IGAvYXBpL2xvZ291dGAgfCBF\nbmRwb2ludCB0byBsb2dvdXQgdGhlIGN1cnJlbnQgdXNlciB8CgpHcmFwaGlR\nTCBpbnRlcmZhY2UgaXMgYXZhaWxhYmxlIGF0IGAvZ3JhcGhxbGAuCgpTd2Fn\nZ2VyIGludGVyZmFjZSAoZm9yIFJFU1QgQVBJKSBpcyBhdmFpbGFibGUgYXQg\nYC9hcGlgLgoKCiMjIFNldHRpbmdzCgpTZXR0aW5ncyBhcmUgcmVhZCBpbiB0\naGUgZm9sbG93aW5nIG9yZGVyOgoKMS4gRnJvbSBhbiBlbnZpcm9ubWVudCB2\nYXJpYWJsZSB3aXRoIGtleSBgPEtFWT5gLgoyLiBGcm9tIGEgZmlsZSBmb3Vu\nZCBgPFNDT1BFX1NFVFRJTkdTX1BBVEg+LzxrZXk+YCwgd2hlcmUgYFNDT1BF\nX1NFVFRJTkdTX1BBVEhgIGNvbnRhaW5zIGEgY29tbWEtc2VwYXJhdGVkIGxp\nc3Qgb2YgcGF0aHMgKGRlZmF1bHQ6IGAvZXRjL2NvbmZpZywvZXRjL3NlY3Jl\ndHNgKS4KCndoZXJlIGA8S0VZPmAgaXMgdGhlIG5hbWUgb2YgdGhlIGNvbmZp\nZ3VyYXRpb24gc2V0dGluZy4KCnwgS2V5IHwgRGVmYXVsdCB2YWx1ZSB8IERl\nc2NyaXB0aW9uIHwKfC0tLS0tfC0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0t\nLS0tfAp8IFNDT1BFX0RCX0RTTiB8IHwgRGF0YWJhc2UgRFNOIChlLmcuIGBw\nb3N0Z3Jlc3FsOi8vc2NvcGU6c2NvcGVAZGI6NTQzMi9zY29wZWApIHwKfCBT\nQ09QRV9SRURJU19EU04gfCB8IFJlZGlzIERTTiAoZS5nLiBgcmVkaXM6Ly9j\nYWNoZTo2Mzc5YCkgfAp8IFNFQ1JFVF9LRVkgfCB8IFNlY3JldCBrZXkgdG8g\ndXNlIGluIGNyeXB0b2dyYXBoaWMgb3BlcmF0aW9ucyB8CnwgREVCVUcgfCBg\nRmFsc2VgIHwgV2hldGhlciB0byBleGVjdXRlIHRoZSBhcHAgaW4gZGVidWcg\nbW9kZSBvciBub3QgfAoKCgojIyBMaWNlbnNlCgpDb3B5cmlnaHQgwqkgMjAx\nOSBVbmRlZmluZWQgTGFicywgSW5jLiBBbGwgcmlnaHRzIHJlc2VydmVkLgoK\nVGhpcyBzb2Z0d2FyZSBpbmNsdWRlcyB0aGlyZCBwYXJ0eSBjb21wb25lbnRz\nIHJlbGVhc2VkIHVuZGVyIG9wZW4gc291cmNlIGxpY2Vuc2VzLiAKW0NsaWNr\nIGhlcmUgdG8gc2VlIHRoZSBmdWxsIGxpc3RdKGh0dHBzOi8vYXBwLmZvc3Nh\nLmlvL2F0dHJpYnV0aW9uLzU0YTNlOTdjLWQ1OGItNDIzMi1iY2Y3LTE4MWI1\nYmI1ZWFjYSkK'
-      const badstartLine = -5
-      const endLine = 3
-      const { codeLines, finalStartLine, finalEndLine } = base64ToLines(
-        validInput,
-        badstartLine,
-        endLine
-      )
-      expect(codeLines.slice(finalStartLine - 1, finalEndLine)).toEqual([
-        {
-          lineNumber: 1,
-          codeLine: '# scope-core',
-        },
-        {
-          lineNumber: 2,
-          codeLine: '',
-        },
-        {
-          lineNumber: 3,
-          codeLine: 'Scope core server',
-        },
-      ])
     })
   })
   describe('getBranchStatus', () => {
