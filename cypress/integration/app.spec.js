@@ -2,6 +2,17 @@ const fileName = 'scope.png'
 
 describe('integration tests', () => {
   const restaurantToAdd = `newrestaurant${1 + Math.floor(Math.random() * 1e6)}`
+
+  const failureRates = [0, 100]
+
+  failureRates.forEach(failureRate => {
+    it('can see all restaurants', () => {
+      cy.visit(`/?failureRate=${failureRate}`)
+        .get('.MuiTypography-h5')
+        .should('exist')
+    })
+  })
+
   it('can visit the app', () => {
     cy.visit('/')
       .wait(2000)

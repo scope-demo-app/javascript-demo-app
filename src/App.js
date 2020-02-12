@@ -65,9 +65,14 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const [debouncedSearchTerm] = useDebounce(searchTerm, DEBOUNCE_TIME)
 
+  const url = new URL(window.location.href)
+
+  const failureRate = url.searchParams.get('failureRate')
+
   useEffect(() => {
     const getRestaurantsByName = async () => {
-      const foundRestaurants = (await findRestaurant({ name: debouncedSearchTerm })) || []
+      const foundRestaurants =
+        (await findRestaurant({ name: debouncedSearchTerm, failureRate })) || []
       let restaurantByKey = {}
       for (let restaurant of foundRestaurants) {
         restaurantByKey[restaurant.id] = restaurant
@@ -75,7 +80,7 @@ function App() {
       setRestaurants(restaurantByKey)
     }
     getRestaurantsByName()
-  }, [debouncedSearchTerm])
+  }, [debouncedSearchTerm, failureRate])
 
   function handleClose(event, reason) {
     if (reason === 'clickaway') {
