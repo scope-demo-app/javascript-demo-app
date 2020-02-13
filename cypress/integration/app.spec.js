@@ -94,4 +94,28 @@ describe('integration tests', () => {
           .should('not.exist')
       })
   })
+  it('can see the details of the restaurants', function() {
+    cy.visit('/')
+      .wait(2000)
+      .get('.MuiCardActionArea-root')
+      .each(element => {
+        cy.wrap(element)
+          .click()
+          .within(() => {
+            cy.get('.MuiTypography-root.MuiTypography-h5.MuiTypography-gutterBottom')
+              .invoke('text')
+              .then(restaurantName => {
+                cy.wrap(restaurantName).as('restaurantName')
+              })
+          })
+          .then(() => {
+            cy.get('.MuiDialogTitle-root')
+              .should('have.text', this.restaurantName)
+              .click()
+              .wait(500)
+              .get('#close')
+              .click()
+          })
+      })
+  })
 })
