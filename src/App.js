@@ -8,7 +8,13 @@ import TextField from '@material-ui/core/TextField'
 import RestaurantCard from './components/RestaurantCard'
 import RestaurantForm from './components/RestaurantForm'
 import RateModal from './components/RateModal'
-import { API_ENDPOINT, rateRestaurant, findRestaurant, getRestaurant } from './api'
+import {
+  API_ENDPOINT,
+  rateRestaurant,
+  findRestaurant,
+  getRestaurant,
+  deleteRestaurant,
+} from './api'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -113,6 +119,16 @@ function App() {
     }
   }
 
+  async function onDeleteRestaurant(restaurantId) {
+    const response = await deleteRestaurant({ restaurantId })
+    if (response.status === 200) {
+      setRestaurants(previousRestaurants => {
+        const { [restaurantId]: removedRestaurant, ...rest } = previousRestaurants
+        return rest
+      })
+    }
+  }
+
   return (
     <div className={classes.root}>
       <Typography gutterBottom variant="h3" component="h3">
@@ -153,6 +169,7 @@ function App() {
       <div className={classes.cards}>
         {Object.values(restaurants).map(restaurant => (
           <RestaurantCard
+            onDelete={() => onDeleteRestaurant(restaurant.id)}
             key={restaurant.id}
             restaurant={{
               ...restaurant,

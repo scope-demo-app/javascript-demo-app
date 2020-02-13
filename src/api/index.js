@@ -33,3 +33,10 @@ export async function rateRestaurant({ endpoint = API_ENDPOINT, restaurantId, ra
   const newRating = await response.text()
   return newRating
 }
+
+export async function deleteRestaurant({ endpoint = API_ENDPOINT, restaurantId }) {
+  const response = await fetch(`${endpoint}/restaurants/${restaurantId}`, {
+    method: 'DELETE',
+  })
+  return response
+}

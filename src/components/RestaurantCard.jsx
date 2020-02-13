@@ -16,6 +16,9 @@ const useStyles = makeStyles({
     width: 345,
     marginBottom: 20,
     marginRight: 20,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   media: {
     height: 140,
@@ -39,7 +42,7 @@ function Rating({ rating, name }) {
   )
 }
 
-function RestaurantCard({ restaurant, onRateRestaurant }) {
+function RestaurantCard({ restaurant, onRateRestaurant, onDelete }) {
   const classes = useStyles()
   const { name, images, rating, description, latitude, longitude } = restaurant
 
@@ -70,6 +73,9 @@ function RestaurantCard({ restaurant, onRateRestaurant }) {
         >
           Show in map
         </Link>
+        <Button size="small" color="primary" onClick={onDelete} id={`delete-${name}`}>
+          Delete
+        </Button>
       </CardActions>
     </Card>
   )
