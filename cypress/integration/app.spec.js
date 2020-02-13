@@ -1,5 +1,11 @@
 const fileName = 'scope.png'
 
+function getRandomInt(min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 describe('integration tests', () => {
   const restaurantToAdd = `newrestaurant${1 + Math.floor(Math.random() * 1e6)}`
 
@@ -69,11 +75,10 @@ describe('integration tests', () => {
   })
   it('can see the details of the restaurants', function() {
     cy.visit('/')
-      .wait(2000)
+      .wait(getRandomInt(300, 2000))
       .get('.MuiCardActionArea-root')
       .each(element => {
         cy.wrap(element)
-          .click()
           .within(() => {
             cy.get('.MuiTypography-root.MuiTypography-h5.MuiTypography-gutterBottom')
               .invoke('text')
@@ -82,10 +87,11 @@ describe('integration tests', () => {
               })
           })
           .then(() => {
-            cy.get('.MuiDialogTitle-root')
+            cy.wrap(element)
+              .click()
+              .get('.MuiDialogTitle-root', { timeout: 0 })
               .should('have.text', this.restaurantName)
               .click()
-              .wait(500)
               .get('#close')
               .click()
           })
