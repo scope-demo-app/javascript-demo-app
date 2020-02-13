@@ -1,10 +1,8 @@
 name: Commit And Run Tests
 
-# on:
-#   schedule:
-#     - cron: '0 4 * * *'
-
-on: [push]
+on:
+  schedule:
+    - cron: '0 4 * * *'
 
 jobs:
   update-docs:
