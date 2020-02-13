@@ -13,6 +13,13 @@ describe('integration tests', () => {
     })
   })
 
+  it('can get one specific restaurant', () => {
+    cy.visit(`/?wrongUrl=1`)
+      .wait(3000)
+      .get('.MuiTypography-h5')
+      .should('exist')
+  })
+
   it('can visit the app', () => {
     cy.visit('/')
       .wait(2000)

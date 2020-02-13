@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import RestaurantCard from './components/RestaurantCard'
 import RestaurantForm from './components/RestaurantForm'
 import RateModal from './components/RateModal'
-import { API_ENDPOINT, rateRestaurant, findRestaurant } from './api'
+import { API_ENDPOINT, rateRestaurant, findRestaurant, getRestaurant } from './api'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -61,6 +61,7 @@ function App() {
   const [ratingRestaurant, setRatingRestaurant] = useState(null)
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [restaurants, setRestaurants] = useState({})
+  const [error, setError] = useState(false)
 
   const [searchTerm, setSearchTerm] = useState('')
   const [debouncedSearchTerm] = useDebounce(searchTerm, DEBOUNCE_TIME)
@@ -68,6 +69,18 @@ function App() {
   const url = new URL(window.location.href)
 
   const failureRate = url.searchParams.get('failureRate')
+
+  const wrongUrl = url.searchParams.get('wrongUrl')
+
+  useEffect(() => {
+    const getRestaurantFunc = async () => {
+      if (wrongUrl) {
+        await getRestaurant({ restaurantId: '01b5e8d5-76ee-41a5-aca4-2990b2843bda' })
+        setError(true)
+      }
+    }
+    getRestaurantFunc()
+  }, [wrongUrl])
 
   useEffect(() => {
     const getRestaurantsByName = async () => {
@@ -81,6 +94,8 @@ function App() {
     }
     getRestaurantsByName()
   }, [debouncedSearchTerm, failureRate])
+
+  if (error) return null
 
   function handleClose(event, reason) {
     if (reason === 'clickaway') {
