@@ -1,4 +1,5 @@
 const fileName = 'scope.png'
+const emptyImage = 'empty.png'
 
 describe('integration tests', () => {
   const restaurantToAdd = `newrestaurant${1 + Math.floor(Math.random() * 1e6)}`
@@ -126,5 +127,25 @@ describe('integration tests', () => {
       .wait(3000)
       .get('.MuiTypography-h5')
       .should('have.length', 1)
+  })
+  it('can submit and delete a restaurant with an empty image', () => {
+    cy.visit('/')
+      .wait(2000)
+      .get('#submit-name')
+      .type('empty-image-restaurant')
+      .wait(1000)
+      .get('#submit-description')
+      .type('description that is really good')
+      .wait(1000)
+      .get('[type=submit]')
+      .click()
+      .wait(2000)
+      .findByText('empty-image-restaurant')
+      .should('exist')
+      .get(`#delete-empty-image-restaurant`)
+      .click()
+      .wait(1000)
+      .findByText('empty-image-restaurant')
+      .should('not.exist')
   })
 })
