@@ -118,4 +118,13 @@ describe('integration tests', () => {
           })
       })
   })
+  it('can search for a specific restaurant', () => {
+    cy.visit('/')
+      .wait(2000)
+      .get('#search')
+      .type('La fábrica 21')
+      .wait(3000)
+      .get('.MuiTypography-h5')
+      .should('have.length', 1)
+  })
 })
