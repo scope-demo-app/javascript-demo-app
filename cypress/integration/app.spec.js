@@ -92,10 +92,11 @@ describe('integration tests', () => {
       })
   })
   it('can submit and delete a restaurant with an empty image', () => {
+    const emptyImageRestaurant = `empty${1 + Math.floor(Math.random() * 1e6)}`
     cy.visit('/')
       .wait(2000)
       .get('#submit-name')
-      .type('empty-image-restaurant')
+      .type(emptyImageRestaurant)
       .wait(1000)
       .get('#submit-description')
       .type('description that is really good')
@@ -104,12 +105,12 @@ describe('integration tests', () => {
       .click()
       .wait(2000)
       .then(() => {
-        cy.findByText('empty-image-restaurant')
+        cy.findByText(emptyImageRestaurant)
           .should('exist')
-          .get(`#delete-empty-image-restaurant`)
+          .get(`#delete-${emptyImageRestaurant}`)
           .click()
           .wait(1000)
-          .findByText('empty-image-restaurant')
+          .findByText(emptyImageRestaurant)
           .should('not.exist')
       })
   })
