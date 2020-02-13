@@ -7,14 +7,9 @@ import TextField from '@material-ui/core/TextField'
 
 import RestaurantCard from './components/RestaurantCard'
 import RestaurantForm from './components/RestaurantForm'
+import RestaurantModal from './components/RestaurantModal'
 import RateModal from './components/RateModal'
-import {
-  API_ENDPOINT,
-  rateRestaurant,
-  findRestaurant,
-  getRestaurant,
-  deleteRestaurant,
-} from './api'
+import { API_ENDPOINT, rateRestaurant, findRestaurant, deleteRestaurant } from './api'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -65,33 +60,16 @@ const DEBOUNCE_TIME = 300
 function App() {
   const classes = useStyles()
   const [ratingRestaurant, setRatingRestaurant] = useState(null)
+  const [seeingRestaurantId, setSeeingRestaurantId] = useState(null)
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [restaurants, setRestaurants] = useState({})
-  const [error, setError] = useState(false)
 
   const [searchTerm, setSearchTerm] = useState('')
   const [debouncedSearchTerm] = useDebounce(searchTerm, DEBOUNCE_TIME)
 
-  const url = new URL(window.location.href)
-
-  const failureRate = url.searchParams.get('failureRate')
-
-  const wrongUrl = url.searchParams.get('wrongUrl')
-
-  useEffect(() => {
-    const getRestaurantFunc = async () => {
-      if (wrongUrl) {
-        await getRestaurant({ restaurantId: '01b5e8d5-76ee-41a5-aca4-2990b2843bda' })
-        setError(true)
-      }
-    }
-    getRestaurantFunc()
-  }, [wrongUrl])
-
   useEffect(() => {
     const getRestaurantsByName = async () => {
-      const foundRestaurants =
-        (await findRestaurant({ name: debouncedSearchTerm, failureRate })) || []
+      const foundRestaurants = (await findRestaurant({ name: debouncedSearchTerm })) || []
       let restaurantByKey = {}
       for (let restaurant of foundRestaurants) {
         restaurantByKey[restaurant.id] = restaurant
@@ -99,9 +77,7 @@ function App() {
       setRestaurants(restaurantByKey)
     }
     getRestaurantsByName()
-  }, [debouncedSearchTerm, failureRate])
-
-  if (error) return null
+  }, [debouncedSearchTerm])
 
   function handleClose(event, reason) {
     if (reason === 'clickaway') {
@@ -147,6 +123,10 @@ function App() {
           Thanks for your feedback!
         </Alert>
       </Snackbar>
+      <RestaurantModal
+        restaurantId={seeingRestaurantId}
+        onClose={() => setSeeingRestaurantId(null)}
+      />
       <RateModal
         restaurant={ratingRestaurant}
         onClose={() => setRatingRestaurant(null)}
@@ -170,6 +150,7 @@ function App() {
         {Object.values(restaurants).map(restaurant => (
           <RestaurantCard
             onDelete={() => onDeleteRestaurant(restaurant.id)}
+            onSelect={() => setSeeingRestaurantId(restaurant.id)}
             key={restaurant.id}
             restaurant={{
               ...restaurant,

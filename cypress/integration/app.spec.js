@@ -3,23 +3,6 @@ const fileName = 'scope.png'
 describe('integration tests', () => {
   const restaurantToAdd = `newrestaurant${1 + Math.floor(Math.random() * 1e6)}`
 
-  const failureRates = [0, 100]
-
-  failureRates.forEach(failureRate => {
-    it('can see all restaurants', () => {
-      cy.visit(`/?failureRate=${failureRate}`)
-        .get('.MuiTypography-h5')
-        .should('exist')
-    })
-  })
-
-  it('can get one specific restaurant', () => {
-    cy.visit(`/?wrongUrl=1`)
-      .wait(3000)
-      .get('.MuiTypography-h5')
-      .should('exist')
-  })
-
   it('can visit the app', () => {
     cy.visit('/')
       .wait(2000)
@@ -83,5 +66,32 @@ describe('integration tests', () => {
       .wait(1000)
       .findByText(restaurantToAdd)
       .should('not.exist')
+  })
+  it('can submit and delete a restaurant with a long name', () => {
+    const longerThanUsualName = `${restaurantToAdd}${restaurantToAdd}`
+    cy.visit('/')
+      .wait(2000)
+      .get('#submit-name')
+      .type(longerThanUsualName)
+      .wait(1000)
+      .get('#submit-description')
+      .type('description that is really good')
+      .wait(1000)
+      .fixture(fileName)
+      .then(fileContent => {
+        cy.get('#imageUpload')
+          .upload({ fileContent, fileName, mimeType: 'image/png' })
+          .wait(1000)
+          .get('[type=submit]')
+          .click()
+          .wait(1000)
+          .findByText(longerThanUsualName)
+          .should('exist')
+          .get(`#delete-${longerThanUsualName}`)
+          .click()
+          .wait(1000)
+          .findByText(longerThanUsualName)
+          .should('not.exist')
+      })
   })
 })

@@ -42,14 +42,14 @@ function Rating({ rating, name }) {
   )
 }
 
-function RestaurantCard({ restaurant, onRateRestaurant, onDelete }) {
+function RestaurantCard({ restaurant, onRateRestaurant, onDelete, onSelect }) {
   const classes = useStyles()
   const { name, images, rating, description, latitude, longitude } = restaurant
 
   const [mainPhoto] = images
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea onClick={onSelect}>
         <CardMedia className={classes.media} image={mainPhoto} title={name} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2" id={name}>

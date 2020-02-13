@@ -2,7 +2,8 @@ export const API_ENDPOINT = 'https://go-demo-app.undefinedlabs.dev'
 
 export async function getRestaurant({ endpoint = API_ENDPOINT, restaurantId } = {}) {
   const response = await fetch(`${endpoint}/restaurants/${restaurantId}`)
-  return response
+  const json = await response.json()
+  return json
 }
 
 export async function findRestaurant({ endpoint = API_ENDPOINT, name, failureRate = 0 } = {}) {
