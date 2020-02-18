@@ -6,10 +6,8 @@ export async function getRestaurant({ endpoint = API_ENDPOINT, restaurantId } = 
   return json
 }
 
-export async function findRestaurant({ endpoint = API_ENDPOINT, name, failureRate = 0 } = {}) {
-  const response = await fetch(
-    `${endpoint}/restaurants?rs.failure=${failureRate}${name ? `&name=${name}` : ''}`
-  )
+export async function findRestaurant({ endpoint = API_ENDPOINT, name } = {}) {
+  const response = await fetch(`${endpoint}/restaurants?${name ? `name=${name}` : ''}`)
   const json = await response.json()
   return json
 }
