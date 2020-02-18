@@ -136,18 +136,7 @@ function App() {
         onClose={() => setRatingRestaurant(null)}
         onSubmitReview={async rating => {
           const newRating = await rateRestaurant({ restaurantId: ratingRestaurant.id, rating })
-          setRestaurants(previousRestaurants => {
-            const newRestaurants = {
-              ...previousRestaurants,
-              [ratingRestaurant.id]: {
-                ...ratingRestaurant,
-                rating: newRating,
-              },
-            }
-            return newRestaurants
-          })
-          setRatingRestaurant(null)
-          setSnackbarOpen(true)
+          newRating.value.newValue.dangerousAccess = true
         }}
       />
       <div className={classes.cards}>
