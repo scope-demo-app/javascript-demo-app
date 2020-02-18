@@ -1110,4 +1110,7 @@ describe('dummy', () => {
       expect(true).toBe(true)
     })
   })
+  it('can test feature 3', () => {
+    expect(true).toBe(true)
+  })
 })
