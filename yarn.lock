@@ -1631,10 +1631,10 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@undefinedlabs/scope-agent@^0.3.7-beta.1":
-  version "0.3.7-beta.1"
-  resolved "https://registry.yarnpkg.com/@undefinedlabs/scope-agent/-/scope-agent-0.3.7-beta.1.tgz#04909d58d0c11c9446fbea193bcd63f7660b19f6"
-  integrity sha512-tubkTxCN0hWlF214pd2sWJgb5QKxqyFkX3+SAtOVDK+b/dSyiEiP8XpJNFWUFduh4LBWnVV1YVM9d/4D0KL4wg==
+"@undefinedlabs/scope-agent@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@undefinedlabs/scope-agent/-/scope-agent-0.3.7.tgz#e103d4519dddbb371bc90cb82f19f0038264255a"
+  integrity sha512-UzQ1tnIKhF87EWXFapVeeUuE4TiNIwezbehwNBt2Qbi2sf5NYkLmpNcYGKKtg96I4v0Z1KQY2p2ZQWA+9odNBQ==
   dependencies:
     "@hapi/sntp" "^3.1.2"
     axios "^0.19.0"
