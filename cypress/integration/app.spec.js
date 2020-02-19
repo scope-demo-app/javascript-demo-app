@@ -30,6 +30,7 @@ describe('integration tests', () => {
       .type(restaurantToAdd)
       .get(`#${restaurantToAdd}`)
       .should('exist')
+      .wait(3000)
       .get('.MuiTypography-h5')
       .should('have.length', 1)
   })
