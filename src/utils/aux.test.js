@@ -1,7 +1,6 @@
 const randomNames = [
   'Sona',
   'Theda',
-  'Micheal',
   'Alta',
   'Danny',
   'Silvia',
@@ -1071,6 +1070,17 @@ const randomNames = [
   'Stevenson',
 ]
 
+const removeRepeated = names => {
+  const newNames = []
+  for (let name of names) {
+    if (newNames.includes(name)) {
+      continue
+    }
+    newNames.push(name)
+  }
+  return newNames
+}
+
 function getRandomInt(min, max) {
   min = Math.ceil(min)
   max = Math.floor(max)
@@ -1086,7 +1096,7 @@ function wait(sec) {
 }
 
 describe('aux tests', () => {
-  randomNames.forEach((name, index) => {
+  removeRepeated(randomNames).forEach((name, index) => {
     it(`can calculate name for ${name}`, async () => {
       if (index < 1050) {
         await wait(Math.random())
