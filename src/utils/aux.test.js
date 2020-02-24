@@ -1081,7 +1081,7 @@ function wait(sec) {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve()
-    }, sec * 100)
+    }, sec * 300)
   })
 }
 
@@ -1092,7 +1092,7 @@ describe('aux tests', () => {
         await wait(Math.random())
         expect(true).toBe(true)
       } else {
-        await wait(getRandomInt(10, 30))
+        await wait(getRandomInt(3, 10))
         expect(true).toBe(true)
       }
     })
