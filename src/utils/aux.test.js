@@ -1091,18 +1091,19 @@ function wait(sec) {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve()
-    }, sec * 300)
+    }, sec * 500)
   })
 }
 
 describe('aux tests', () => {
-  removeRepeated(randomNames).forEach((name, index) => {
+  const cleanRandomNames = removeRepeated(randomNames)
+  cleanRandomNames.forEach((name, index) => {
     it(`can calculate name for ${name}`, async () => {
-      if (index < 1050) {
+      if (index < cleanRandomNames.length * 0.95) {
         await wait(Math.random())
         expect(true).toBe(true)
       } else {
-        await wait(getRandomInt(3, 10))
+        await wait(getRandomInt(5, 15))
         expect(true).toBe(true)
       }
     })
