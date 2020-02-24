@@ -34,6 +34,16 @@ describe('integration tests', () => {
       .get('.MuiTypography-h5')
       .should('have.length', 1)
   })
+  it('can search for a restaurant', () => {
+    cy.visit('/route')
+      .get('#search')
+      .type(restaurantToAdd)
+      .get(`#${restaurantToAdd}`)
+      .should('exist')
+      .wait(3000)
+      .get('.MuiTypography-h5')
+      .should('have.length', 1)
+  })
   it('can rate a restaurant', () => {
     cy.visit('/')
       .get('#search')
