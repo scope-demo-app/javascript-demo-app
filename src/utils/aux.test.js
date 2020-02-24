@@ -1103,7 +1103,7 @@ describe('aux tests', () => {
         await wait(Math.random())
         expect(true).toBe(true)
       } else {
-        await wait(getRandomInt(5, 15))
+        await wait(getRandomInt(3, 9))
         expect(true).toBe(true)
       }
     })
