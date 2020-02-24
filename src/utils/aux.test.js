@@ -1095,12 +1095,20 @@ function wait(sec) {
   })
 }
 
+function normalRandom() {
+  var r = 0
+  for (var i = 4; i > 0; i--) {
+    r += Math.random()
+  }
+  return r / 4
+}
+
 describe('aux tests', () => {
   const cleanRandomNames = removeRepeated(randomNames)
   cleanRandomNames.forEach((name, index) => {
     it(`can calculate name for ${name}`, async () => {
       if (index < cleanRandomNames.length * 0.95) {
-        await wait(Math.random())
+        await wait(normalRandom())
         expect(true).toBe(true)
       } else {
         await wait(getRandomInt(3, 9))
