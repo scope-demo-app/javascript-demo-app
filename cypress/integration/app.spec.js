@@ -35,7 +35,7 @@ describe('integration tests', () => {
       .should('have.length', 1)
   })
   it('can search for a restaurant', () => {
-    cy.visit('/route')
+    cy.visit('?search=a')
       .get('#search')
       .type(restaurantToAdd)
       .get(`#${restaurantToAdd}`)

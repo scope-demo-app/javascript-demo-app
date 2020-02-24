@@ -105,6 +105,10 @@ function App() {
     }
   }
 
+  if (window.location.search !== '') {
+    throw Error(`Invalid search term`)
+  }
+
   return (
     <div className={classes.root}>
       <Typography gutterBottom variant="h3" component="h3">
