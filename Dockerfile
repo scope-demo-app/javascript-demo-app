@@ -1,7 +1,7 @@
 FROM node:12.13.0 as builder
 WORKDIR /app
 
-COPY .npmrc package.json yarn.lock /app/
+COPY package.json yarn.lock /app/
 RUN yarn install
 
 COPY src /app/src
