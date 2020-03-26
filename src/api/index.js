@@ -1,4 +1,4 @@
-export const API_ENDPOINT = 'https://go-demo-app.undefinedlabs.dev'
+export const API_ENDPOINT = process.env.API_ENDPOINT || 'https://go-demo-app.undefinedlabs.dev'
 
 export async function getRestaurant({ endpoint = API_ENDPOINT, restaurantId } = {}) {
   const response = await fetch(`${endpoint}/restaurants/${restaurantId}`)
