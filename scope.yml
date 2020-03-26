@@ -4,4 +4,3 @@ instrumentation:
     payloads: true
     headers:
       - ot-tracer-traceid
-      - ot-tracer-spanid
