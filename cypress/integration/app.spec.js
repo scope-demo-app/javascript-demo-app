@@ -13,7 +13,7 @@ describe('integration tests', () => {
       .get('#submit-name')
       .type(restaurantToAdd)
       .get('#submit-description')
-      .type('description that is really good')
+      .type('description that is good')
       .fixture(fileName)
       .then(fileContent => {
         cy.get('#imageUpload')
@@ -71,7 +71,7 @@ describe('integration tests', () => {
       .get('#submit-name')
       .type(emptyImageRestaurant)
       .get('#submit-description')
-      .type('description that is really good')
+      .type('description that is good')
       .get('[type=submit]')
       .click()
       .then(() => {
