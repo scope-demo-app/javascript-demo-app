@@ -100,7 +100,7 @@ describe('demotest', () => {
     cy.visit('/')
       .get('#search')
       .type(restaurantToAdd)
-      .get(`#delete-${restaurantToAdd}`)
+      .get(`#delete-2-${restaurantToAdd}`)
       .click()
       .findByText(restaurantToAdd)
       .should('not.exist')
