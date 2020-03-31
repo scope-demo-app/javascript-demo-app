@@ -1091,7 +1091,7 @@ function wait(sec) {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve()
-    }, sec * 500)
+    }, sec * 1000)
   })
 }
 
@@ -1103,15 +1103,16 @@ function normalRandom() {
   return r / 4
 }
 
-describe('aux tests', () => {
+describe('dummy', () => {
   const cleanRandomNames = removeRepeated(randomNames)
   cleanRandomNames.forEach((name, index) => {
     it(`can calculate name for ${name}`, async () => {
-      if (index < cleanRandomNames.length * 0.95) {
-        await wait(normalRandom())
+      if (index < cleanRandomNames.length * 0.8) {
+        const random = normalRandom()
+        await wait(random < 1 ? random : random / 4)
         expect(true).toBe(true)
       } else {
-        await wait(getRandomInt(3, 9))
+        await wait(getRandomInt(1, 3))
         expect(true).toBe(true)
       }
     })
