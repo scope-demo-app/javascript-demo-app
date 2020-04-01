@@ -1081,12 +1081,6 @@ const removeRepeated = names => {
   return newNames
 }
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min)
-  max = Math.floor(max)
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
 function wait(sec) {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -1110,13 +1104,8 @@ describe('dummy', () => {
   const cleanRandomNames = removeRepeated(randomNames)
   cleanRandomNames.forEach((name, index) => {
     it(`can calculate name for ${name}`, async () => {
-      if (index < cleanRandomNames.length * 0.8) {
-        await wait(normalRandom())
-        expect(true).toBe(true)
-      } else {
-        await wait(getRandomInt(1, 5))
-        expect(true).toBe(true)
-      }
+      await wait(normalRandom())
+      expect(true).toBe(true)
     })
   })
 })
