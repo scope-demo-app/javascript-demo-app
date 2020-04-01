@@ -1089,7 +1089,7 @@ function wait(sec) {
   })
 }
 
-function normalRandom() {
+function normalRandom(min = 0, max = 1) {
   let u = 0,
     v = 0
   while (u === 0) u = Math.random() //Converting [0,1) to (0,1)
@@ -1097,14 +1097,16 @@ function normalRandom() {
   let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v)
   num = num / 10.0 + 0.5 // Translate to 0 -> 1
   if (num > 1 || num < 0) return normalRandom() // resample between 0 and 1
+  num *= max - min // Stretch to fill range
+  num += min // offset to min
   return num
 }
 
 describe('dummy', () => {
   const cleanRandomNames = removeRepeated(randomNames)
-  cleanRandomNames.forEach((name, index) => {
+  cleanRandomNames.forEach(name => {
     it(`can calculate name for ${name}`, async () => {
-      await wait(normalRandom())
+      await wait(normalRandom(0.5, 3))
       expect(true).toBe(true)
     })
   })
