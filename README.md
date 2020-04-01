@@ -2,6 +2,8 @@
 
 # Javascript Demo App
 
+Demo project for web application.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for developing and testing purposes.
@@ -73,3 +75,17 @@ $ SCOPE_DSN=<your_namespace_dsn> yarn test:e2e
 ### How to obtain SCOPE_DSN
 
 Go to [Scope](https://app.scope.dev/) for more information about how to get your SCOPE_DSN.
+
+## Reviewing the tests
+
+After the tests run, you'll get a URL in the console with a direct link to the test results:
+
+```bash
+** Scope Test Report **
+Access the detailed test report for this build at:
+   https://app.scope.dev/external/v1/results/...
+```
+
+Alternatively, the `Scope for Mac` and `Scope for Windows` applications will also show recent runs. Clicking on these will take you directly to the test reports.
+
+When reviewing the tests in Scope, filter by `demotest` in the search bar to find the most interesting tests. Other tests, particularly those tagged as `dummy` may not contain useful information.
