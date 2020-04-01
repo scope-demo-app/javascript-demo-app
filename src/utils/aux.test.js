@@ -1096,11 +1096,14 @@ function wait(sec) {
 }
 
 function normalRandom() {
-  var r = 0
-  for (var i = 4; i > 0; i--) {
-    r += Math.random()
-  }
-  return r / 4
+  let u = 0,
+    v = 0
+  while (u === 0) u = Math.random() //Converting [0,1) to (0,1)
+  while (v === 0) v = Math.random()
+  let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v)
+  num = num / 10.0 + 0.5 // Translate to 0 -> 1
+  if (num > 1 || num < 0) return normalRandom() // resample between 0 and 1
+  return num
 }
 
 describe('dummy', () => {
@@ -1108,11 +1111,10 @@ describe('dummy', () => {
   cleanRandomNames.forEach((name, index) => {
     it(`can calculate name for ${name}`, async () => {
       if (index < cleanRandomNames.length * 0.8) {
-        const random = normalRandom()
-        await wait(random < 1 ? random : random / 4)
+        await wait(normalRandom())
         expect(true).toBe(true)
       } else {
-        await wait(getRandomInt(1, 3))
+        await wait(getRandomInt(1, 5))
         expect(true).toBe(true)
       }
     })

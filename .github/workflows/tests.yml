@@ -6,7 +6,7 @@ jobs:
   build:
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 13.x]
+        node-version: [12.x, 13.x]
     env:
       SCOPE_DSN: ${{ secrets.SCOPE_DSN }}
     runs-on: ubuntu-latest
