@@ -63,7 +63,7 @@ describe('demotest', () => {
       .should('not.exist')
   })
 
-  it('can submit and delete a restaurant with an empty image', () => {
+  it('can submit a restaurant with an empty image', () => {
     const emptyImageRestaurant = `empty${1 + Math.floor(Math.random() * 1e6)}`
     cy.visit('/')
       .get('#submit-name')
@@ -73,13 +73,7 @@ describe('demotest', () => {
       .get('[type=submit]')
       .click()
       .then(() => {
-        cy.findByText(emptyImageRestaurant)
-          .should('exist')
-          .get(`#delete-${emptyImageRestaurant}`)
-          .click()
-          .wait(2000)
-          .findByText(emptyImageRestaurant)
-          .should('not.exist')
+        cy.findByText(emptyImageRestaurant).should('exist')
       })
   })
 })
