@@ -1081,39 +1081,33 @@ const removeRepeated = names => {
   return newNames
 }
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min)
-  max = Math.floor(max)
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
 function wait(sec) {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve()
-    }, sec * 500)
+    }, sec * 1000)
   })
 }
 
-function normalRandom() {
-  var r = 0
-  for (var i = 4; i > 0; i--) {
-    r += Math.random()
-  }
-  return r / 4
+function normalRandom(min = 0, max = 1) {
+  let u = 0,
+    v = 0
+  while (u === 0) u = Math.random() //Converting [0,1) to (0,1)
+  while (v === 0) v = Math.random()
+  let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v)
+  num = num / 10.0 + 0.5 // Translate to 0 -> 1
+  if (num > 1 || num < 0) return normalRandom() // resample between 0 and 1
+  num *= max - min // Stretch to fill range
+  num += min // offset to min
+  return num
 }
 
-describe('aux tests', () => {
+describe('dummy', () => {
   const cleanRandomNames = removeRepeated(randomNames)
-  cleanRandomNames.forEach((name, index) => {
+  cleanRandomNames.forEach(name => {
     it(`can calculate name for ${name}`, async () => {
-      if (index < cleanRandomNames.length * 0.95) {
-        await wait(normalRandom())
-        expect(true).toBe(true)
-      } else {
-        await wait(getRandomInt(3, 9))
-        expect(true).toBe(true)
-      }
+      await wait(normalRandom(0.5, 3))
+      expect(true).toBe(true)
     })
   })
 })
