@@ -42,7 +42,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "@undefinedlabs/scope-agent": "^0.4.1",
+    "@undefinedlabs/scope-agent": "^0.4.2",
     "cypress": "^3.8.3",
     "cypress-file-upload": "^3.5.3"
   }
