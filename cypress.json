@@ -4,5 +4,5 @@
   "supportFile": "cypress/support/index.js",
   "pluginsFile": "cypress/plugins/index.js",
   "chromeWebSecurity": false,
-  "defaultCommandTimeout": 7000
+  "defaultCommandTimeout": 9000
 }
