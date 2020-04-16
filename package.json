@@ -20,7 +20,7 @@
     "eject": "react-scripts eject",
     "cy:open": "cypress open",
     "test:e2e": "cypress run",
-    "test:unit": "CI=true yarn test --testRunner=@undefinedlabs/scope-agent/jest/testRunner --runner=@undefinedlabs/scope-agent/jest/runner --runInBand"
+    "test:unit": "CI=true yarn test --testRunner=@undefinedlabs/scope-agent/jest/testRunner --globalSetup=@undefinedlabs/scope-agent/jest/globalSetup --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
