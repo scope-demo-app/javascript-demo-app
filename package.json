@@ -20,7 +20,7 @@
     "eject": "react-scripts eject",
     "cy:open": "cypress open",
     "test:e2e": "cypress run",
-    "test:unit": "CI=true yarn test --testRunner=@undefinedlabs/scope-agent/jest/testRunner --globalSetup=@undefinedlabs/scope-agent/jest/globalSetup --coverage"
+    "test:unit": "CI=true yarn test --testRunner=@undefinedlabs/scope-agent/jest/testRunner --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,5 +45,11 @@
     "@undefinedlabs/scope-agent": "^0.5.2",
     "cypress": "^3.8.3",
     "cypress-file-upload": "^3.5.3"
+  },
+  "jest": {
+    "globalSetup": "@undefinedlabs/scope-agent/jest/globalSetup",
+    "collectCoverageFrom": [
+      "**/*.test.js"
+    ]
   }
 }

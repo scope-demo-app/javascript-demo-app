@@ -44,6 +44,9 @@ function Rating({ rating, name }) {
 
 function RestaurantCard({ restaurant, onRateRestaurant, onDelete, onSelect }) {
   const classes = useStyles()
+  if (!restaurant) {
+    return null
+  }
   const { name, images, rating, description, latitude, longitude } = restaurant
 
   const [mainPhoto] = images
