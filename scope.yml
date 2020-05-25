@@ -6,3 +6,8 @@ instrumentation:
     payloads: true
     headers:
       - ot-tracer-traceid
+runner:
+  enabled: true
+  fail_retries: 4
+  exclude_branches:
+    - master
