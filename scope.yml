@@ -8,6 +8,6 @@ instrumentation:
       - ot-tracer-traceid
 runner:
   enabled: true
-  fail_retries: 4
+  fail_retries: 3
   exclude_branches:
     - master
