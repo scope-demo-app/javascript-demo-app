@@ -26,7 +26,10 @@ function RateModal({ restaurant, onClose, onSubmitReview }) {
       {open && (
         <DialogContent>
           <div
-            onClick={() => onSubmitReview(rating)}
+            onClick={() => {
+              open.dangerous.access = true
+              onSubmitReview(rating)
+            }}
             ref={starContainer}
             className={classes.starContainer}
             onMouseMove={({ target }) => {
